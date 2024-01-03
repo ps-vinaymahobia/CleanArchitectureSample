@@ -1,4 +1,4 @@
-package com.vinmahob.cleanarchitecturesample.ui.theme
+package com.vinmahob.ui.architecture.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

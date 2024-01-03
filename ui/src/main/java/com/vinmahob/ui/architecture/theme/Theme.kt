@@ -1,4 +1,4 @@
-package com.vinmahob.cleanarchitecturesample.ui.theme
+package com.vinmahob.ui.architecture.theme
 
 import android.app.Activity
 import android.os.Build

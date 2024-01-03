@@ -3,7 +3,7 @@ package com.vinmahob.datasource.productdetails.mapper
 import com.vinmahob.data.productdetails.model.ProductDetailsDataModel
 import com.vinmahob.datasource.productdetails.model.ProductResponseModel
 
-class ProductDataSourceToDataModelMapper {
+class ProductDetailsDataSourceToDataModelMapper {
     fun toData(input: ProductResponseModel) = ProductDetailsDataModel(
         id = input.id,
         title = input.title,

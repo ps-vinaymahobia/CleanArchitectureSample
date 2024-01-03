@@ -22,12 +22,6 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
-    }
 }
 
 dependencies {
@@ -37,8 +31,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
 
     //hilt
-    implementation(libs.androidx.hilt.navigation.compose)
-    //Hilt Dependencies
     implementation (libs.hilt.android)
     kapt (libs.hilt.android.compiler)
 }
