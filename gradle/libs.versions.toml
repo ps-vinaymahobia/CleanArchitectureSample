@@ -9,6 +9,8 @@ androidxComposeBom = "2023.10.01"
 androidxHilt = "1.1.0"
 androidxNavigation = "2.7.5"
 kotlinxCoroutinesAndroid = "1.7.3"
+kotlinxCoroutinesTest = "1.7.3"
+mockk = "1.13.8"
 org-jetbrains-kotlin-jvm = "1.9.0"
 hilt = "2.45"
 junit = "4.13.2"
@@ -44,7 +46,9 @@ androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 

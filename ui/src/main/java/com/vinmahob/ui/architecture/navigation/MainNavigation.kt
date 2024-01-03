@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.vinmahob.ui.productdetails.ProductDetailsRoute
 import com.vinmahob.ui.productlist.ProductListRoute
 
 @Composable
@@ -26,11 +27,11 @@ fun MainNavigation(
             route = "details/{id}",
             arguments = listOf(element = navArgument("id") { type = NavType.IntType })
         ) {
-//            ProductDetailsRoute(
-//                onGoBack = {
-//                    navHostController.popBackStack()
-//                }
-//            )
+            ProductDetailsRoute(
+                onGoBack = {
+                    navHostController.popBackStack()
+                }
+            )
         }
     }
 }

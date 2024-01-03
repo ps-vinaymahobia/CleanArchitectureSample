@@ -11,4 +11,9 @@ java {
 
 dependencies{
     implementation(libs.kotlinx.coroutines.android)
+
+    //unit testing
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation (libs.mockk)
 }
