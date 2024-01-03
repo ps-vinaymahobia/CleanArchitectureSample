@@ -1,10 +1,10 @@
-package com.vinmahob.data.productlist.datasource
+package com.vinmahob.presentation.productlist.mapper
 
-import com.vinmahob.data.productlist.model.ProductListItemDataModel
 import com.vinmahob.domain.productlist.model.ProductListItemDomainModel
+import com.vinmahob.presentation.productlist.model.ProductListItemPresentationModel
 
-class ProductListItemDataToDomainMapper {
-    fun toDomain(input: ProductListItemDataModel) = ProductListItemDomainModel(
+class ProductListItemDomainToPresentationMapper {
+    fun toPresentation(input: ProductListItemDomainModel) = ProductListItemPresentationModel(
         id = input.id,
         title = input.title,
         price = input.price,

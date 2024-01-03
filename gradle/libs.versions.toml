@@ -1,7 +1,7 @@
 [versions]
 androidGradlePlugin = "8.2.0"
 converterGson = "2.9.0"
-kotlin = "1.9.0"
+kotlin = "1.9.0" #the Compose Compiler requires Kotlin version 1.8.10
 androidxCore = "1.12.0"
 androidxLifecycle = "2.6.2"
 androidxActivity = "1.8.1"
@@ -17,6 +17,7 @@ espresso-core = "3.5.1"
 appcompat = "1.6.1"
 material = "1.11.0"
 retrofit = "2.9.0"
+hiltAndroid = "2.48"
 
 [libraries]
 android-tools-build-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -24,12 +25,15 @@ converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivity" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui"}
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3"}
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics"}
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview"}
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidxHilt" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidxNavigation" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }

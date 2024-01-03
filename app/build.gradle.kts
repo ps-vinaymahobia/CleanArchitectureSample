@@ -50,6 +50,12 @@ android {
 }
 
 dependencies {
+    //app module knows about all other modules
+    implementation(project(":ui"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
+    implementation(project(":presentation"))
+    implementation(project(":datasource"))
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

@@ -1,6 +1,5 @@
 package com.vinmahob.data.productlist.mapper
 
-import com.vinmahob.data.productlist.datasource.ProductListItemDataToDomainMapper
 import com.vinmahob.data.productlist.model.ProductListDataModel
 import com.vinmahob.domain.productlist.model.ProductListDomainModel
 
