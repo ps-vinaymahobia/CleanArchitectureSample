@@ -18,3 +18,4 @@ rootProject.name = "CleanArchitectureSample"
 include(":app")
 include(":ui")
 include(":domain")
+include(":data")
