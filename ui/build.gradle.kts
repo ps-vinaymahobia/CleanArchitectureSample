@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlin.android)
+    id("org.jetbrains.kotlin.kapt")
+    id("com.google.dagger.hilt.android") //required for hilt processing
 }
 
 android {
@@ -47,6 +49,10 @@ dependencies {
     implementation(libs.material)
     //for loading images
     implementation(libs.coil.compose)
+    //hilt
+    implementation (libs.hilt.android)
+    kapt (libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
     //compose
     implementation(libs.androidx.activity.compose)
     implementation(platform("androidx.compose:compose-bom:2023.08.00"))

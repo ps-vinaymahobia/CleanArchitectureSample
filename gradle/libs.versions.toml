@@ -52,7 +52,6 @@ coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose"
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
-example-android-library = { id = "example.android.library", version = "unspecified" }
 google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version = "hilt" }
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 

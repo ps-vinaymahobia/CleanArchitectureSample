@@ -1,4 +1,4 @@
-package com.vinmahob.cleanarchitecturesample.r.di
+package com.vinmahob.cleanarchitecturesample.di
 
 import com.vinmahob.domain.architecture.coroutine.CoroutineContextProvider
 import com.vinmahob.domain.architecture.usecase.UseCaseExecutor

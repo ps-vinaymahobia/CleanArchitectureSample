@@ -1,4 +1,4 @@
-package com.vinmahob.cleanarchitecturesample.r.di
+package com.vinmahob.cleanarchitecturesample.di
 
 import com.vinmahob.data.productlist.datasource.ProductListDataSource
 import com.vinmahob.data.productlist.mapper.ProductListDataToDomainMapper
