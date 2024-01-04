@@ -8,9 +8,9 @@ import com.vinmahob.datasource.productlist.network.ProductListApiService
 
 class ProductListLiveDataSource(
     private val productListApiService: ProductListApiService,
-    private val productListResponseToDataMapper: ProductListDataSourceToDataMapper
+    private val productListDataSourceToDataMapper: ProductListDataSourceToDataMapper
 ) : ProductListDataSource {
     override suspend fun getProductList(): ProductListDataModel {
-        return productListResponseToDataMapper.toData(productListApiService.getProductList())
+        return productListDataSourceToDataMapper.toData(productListApiService.getProductList())
     }
 }

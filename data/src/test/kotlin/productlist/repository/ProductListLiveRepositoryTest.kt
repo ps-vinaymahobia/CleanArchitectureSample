@@ -1,0 +1,45 @@
+package productlist.repository
+
+import com.vinmahob.data.productlist.datasource.ProductListDataSource
+import com.vinmahob.data.productlist.mapper.ProductListDataToDomainMapper
+import com.vinmahob.data.productlist.mapper.ProductListItemDataToDomainMapper
+import com.vinmahob.data.productlist.repository.ProductListLiveRepository
+import io.mockk.coEvery
+import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Test
+import utils.FakeDataProvider
+
+class ProductListLiveRepositoryTest {
+    private var productListDataSource = mockk<ProductListDataSource>()
+    private lateinit var productListItemDataToDomainMapper : ProductListItemDataToDomainMapper
+    private lateinit var productListDataToDomainMapper : ProductListDataToDomainMapper
+    private lateinit var productListLiveRepository: ProductListLiveRepository
+
+    @Before
+    fun setup(){
+        productListItemDataToDomainMapper = ProductListItemDataToDomainMapper()
+        productListDataToDomainMapper = ProductListDataToDomainMapper(productListItemDataToDomainMapper)
+        productListLiveRepository = ProductListLiveRepository(
+            productListDataSource = productListDataSource,
+            productListDataToDomainMapper = productListDataToDomainMapper
+        )
+    }
+
+    @Test
+    fun `Given productListDataSource gives ProductListDataModel When getProductList called then returns productListDomainModel`() = runTest {
+        //Given
+        val productListDataModel = FakeDataProvider.fakeProductList
+        val expectedResult = FakeDataProvider.fakeDomainProductList
+        coEvery { productListDataSource.getProductList() } returns
+                productListDataModel
+
+        //when
+        val actualResult = productListLiveRepository.getProductList()
+
+        //Then
+        Assert.assertEquals(expectedResult.productList[0].id,actualResult.productList[0].id)
+    }
+}

@@ -1,15 +1,15 @@
 package com.vinmahob.datasource.productlist.mapper
 
 import com.vinmahob.data.productlist.model.ProductListDataModel
-import com.vinmahob.datasource.productlist.model.ProductListResponseModel
+import com.vinmahob.datasource.productlist.model.ProductListDataSourceModel
 
 class ProductListDataSourceToDataMapper(
-    private val productListItemResponseToDataMapper: ProductListItemDataSourceToDataMapper
+    private val productListItemDataSourceToDataMapper: ProductListItemDataSourceToDataMapper
 ) {
-    fun toData(input: ProductListResponseModel): ProductListDataModel {
+    fun toData(input: ProductListDataSourceModel): ProductListDataModel {
         return ProductListDataModel(
             productList = input.products.map { item ->
-                productListItemResponseToDataMapper.toData(
+                productListItemDataSourceToDataMapper.toData(
                     item
                 )
             }

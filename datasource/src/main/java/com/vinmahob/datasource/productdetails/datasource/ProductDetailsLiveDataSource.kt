@@ -6,10 +6,10 @@ import com.vinmahob.datasource.productdetails.mapper.ProductDetailsDataSourceToD
 import com.vinmahob.datasource.productdetails.network.ProductDetailsApiService
 
 class ProductDetailsLiveDataSource (
-    private val productApiService: ProductDetailsApiService,
-    private val productResponseToDataModelMapper: ProductDetailsDataSourceToDataModelMapper
+    private val productDetailsApiService: ProductDetailsApiService,
+    private val productDetailsDataSourceToDataModelMapper: ProductDetailsDataSourceToDataModelMapper
 ) : ProductDetailsDataSource {
     override suspend fun getProductDetails(productId: Int): ProductDetailsDataModel {
-       return productResponseToDataModelMapper.toData(productApiService.getProductDetail(productId))
+       return productDetailsDataSourceToDataModelMapper.toData(productDetailsApiService.getProductDetails(productId))
     }
 }

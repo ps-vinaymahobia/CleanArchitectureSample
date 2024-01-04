@@ -8,6 +8,7 @@ import com.vinmahob.presentation.architecture.viewmodel.usecase.UseCaseExecutorP
 import com.vinmahob.presentation.productdetails.mapper.ProductDetailsDomainToPresentationMapper
 import com.vinmahob.presentation.productdetails.model.ProductDetailsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,18 +21,18 @@ class ProductDetailsViewModel @Inject constructor(
     override fun initialState() = ProductDetailsViewState.Idle
 
     init {
-        fetchProductDetails(savedStateHandle.get<Int>("id") ?: 1)
+//        fetchProductDetails(savedStateHandle.get<Int>("id") ?: 1)
     }
 
-    private fun fetchProductDetails(productId: Int) {
+    fun fetchProductDetails(productId: Int) {
         useCaseExecutor.execute(
             getProductDetailsUseCase, productId, ::currentProductDetails
         )
     }
 
-    private fun currentProductDetails(product : ProductDetailsDomainModel){
+    @VisibleForTesting
+    fun currentProductDetails(product : ProductDetailsDomainModel){
         val productDetails = productDetailsDomainToPresentationMapper.toPresentation(product)
         updateViewState{ProductDetailsViewState.ProductDetailsLoaded(productDetails)}
-        Result
     }
 }

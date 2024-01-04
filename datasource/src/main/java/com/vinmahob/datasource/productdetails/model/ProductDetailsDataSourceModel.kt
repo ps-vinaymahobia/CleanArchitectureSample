@@ -1,6 +1,6 @@
 package com.vinmahob.datasource.productdetails.model
 
-data class ProductResponseModel(
+data class ProductDetailsDataSourceModel(
     val id: Int,
     val title: String,
     val description: String,

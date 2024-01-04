@@ -1,7 +1,6 @@
 package productdetails.usecase
 
 import com.vinmahob.domain.architecture.coroutine.CoroutineContextProvider
-import com.vinmahob.domain.productdetails.model.ProductDetailsDomainModel
 import com.vinmahob.domain.productdetails.repository.ProductDetailsRepository
 import com.vinmahob.domain.productdetails.usecase.GetProductDetailsUseCase
 import io.mockk.coEvery
@@ -15,7 +14,6 @@ import utils.FakeDataProvider
 
 class GetProductDetailsUseCaseTest {
     private var productDetailsRepository =  mockk<ProductDetailsRepository>()
-
     private var coroutineContextProvider =  mockk<CoroutineContextProvider>()
 
     private lateinit var getProductDetailsUseCase : GetProductDetailsUseCase
