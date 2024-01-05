@@ -29,6 +29,7 @@ class ProductListViewModel @Inject constructor(
     override fun initialState() = ProductListViewState.Idle
 
     private fun fetchProductList() {
+        updateViewState { ProductListViewState.Loading }
         useCaseExecutor.execute(
             getProductListUseCase, null, ::currentProductList
         )

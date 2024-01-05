@@ -9,7 +9,6 @@ import com.vinmahob.presentation.architecture.viewmodel.usecase.UseCaseExecutorP
 import com.vinmahob.presentation.productdetails.mapper.ProductDetailsDomainToPresentationMapper
 import com.vinmahob.presentation.productdetails.model.ProductDetailsViewIntent
 import com.vinmahob.presentation.productdetails.model.ProductDetailsViewState
-import com.vinmahob.presentation.productlist.model.ProductListViewIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
@@ -32,6 +31,7 @@ class ProductDetailsViewModel @Inject constructor(
     override fun initialState() = ProductDetailsViewState.Idle
 
     private fun fetchProductDetails(productId: Int) {
+        updateViewState { ProductDetailsViewState.Loading }
         useCaseExecutor.execute(
             getProductDetailsUseCase, productId, ::currentProductDetails
         )

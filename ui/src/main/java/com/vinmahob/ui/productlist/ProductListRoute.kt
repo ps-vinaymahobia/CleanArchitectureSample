@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,6 +36,10 @@ import com.vinmahob.presentation.productlist.model.ProductListPresentationModel
 import com.vinmahob.presentation.productlist.model.ProductListViewIntent
 import com.vinmahob.presentation.productlist.model.ProductListViewState
 import com.vinmahob.presentation.productlist.viewmodel.ProductListViewModel
+import com.vinmahob.ui.R
+import com.vinmahob.ui.architecture.ui.widget.DefaultErrorState
+import com.vinmahob.ui.architecture.ui.widget.DefaultIdleState
+import com.vinmahob.ui.architecture.ui.widget.TopAppToolbar
 
 @Composable
 fun ProductListRoute(
@@ -45,19 +51,34 @@ fun ProductListRoute(
     LaunchedEffect(UInt) {
         viewModel.viewIntent.send(ProductListViewIntent.LoadProductList)
     }
-    ProductListScreen(uiState = state, modifier = modifier, onGoToItem = onGoToItem)
+    TopAppToolbar(
+        title = stringResource(id = R.string.product_list_screen_title),
+        content = { innerPadding ->
+            ProductListScreen(
+                uiState = state,
+                modifier = modifier,
+                innerPadding = innerPadding,
+                onGoToItem = onGoToItem
+            )
+        }
+    )
 }
 
 @Composable
 internal fun ProductListScreen(
     onGoToItem: (Int) -> Unit,
     modifier: Modifier,
+    innerPadding: PaddingValues,
     uiState: ProductListViewState
 ) {
-    Box(modifier.fillMaxSize()) {
+    Box(
+        modifier
+            .fillMaxSize()
+            .padding(innerPadding)
+    ) {
         when (uiState) {
-            is ProductListViewState.Error -> TODO()
-            ProductListViewState.Idle -> {}
+            is ProductListViewState.Error -> DefaultErrorState(modifier)
+            ProductListViewState.Idle -> DefaultIdleState(modifier)
             ProductListViewState.Loading -> CircularProgressIndicator(
                 modifier = modifier.align(
                     Alignment.Center
