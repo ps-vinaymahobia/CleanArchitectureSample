@@ -17,6 +17,7 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,6 +31,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.vinmahob.presentation.productlist.model.ProductListItemPresentationModel
 import com.vinmahob.presentation.productlist.model.ProductListPresentationModel
+import com.vinmahob.presentation.productlist.model.ProductListViewIntent
 import com.vinmahob.presentation.productlist.model.ProductListViewState
 import com.vinmahob.presentation.productlist.viewmodel.ProductListViewModel
 
@@ -40,7 +42,10 @@ fun ProductListRoute(
     viewModel: ProductListViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
-    ProductListScreen(uiState = state, modifier = modifier,onGoToItem = onGoToItem)
+    LaunchedEffect(UInt) {
+        viewModel.viewIntent.send(ProductListViewIntent.LoadProductList)
+    }
+    ProductListScreen(uiState = state, modifier = modifier, onGoToItem = onGoToItem)
 }
 
 @Composable
@@ -50,10 +55,15 @@ internal fun ProductListScreen(
     uiState: ProductListViewState
 ) {
     Box(modifier.fillMaxSize()) {
-        when(uiState){
+        when (uiState) {
             is ProductListViewState.Error -> TODO()
             ProductListViewState.Idle -> {}
-            ProductListViewState.Loading -> CircularProgressIndicator(modifier = modifier.align(Alignment.Center))
+            ProductListViewState.Loading -> CircularProgressIndicator(
+                modifier = modifier.align(
+                    Alignment.Center
+                )
+            )
+
             is ProductListViewState.ProductListLoaded -> {
                 ProductList(productList = uiState.productList, onGoToItem = onGoToItem)
             }
@@ -79,7 +89,7 @@ private fun ProductList(
                     columns = GridCells.Adaptive(minSize = 150.dp),
                     content = {
                         itemsIndexed(productList.productList) { _, product ->
-                            ProductListItem(product,onGoToItem)
+                            ProductListItem(product, onGoToItem)
                         }
                     }
                 )
@@ -93,12 +103,12 @@ private fun ProductListItem(
     product: ProductListItemPresentationModel,
     onGoToItem: (Int) -> Unit
 ) {
-    OutlinedCard (
+    OutlinedCard(
         modifier = Modifier
             .size(width = 340.dp, height = 200.dp)
             .padding(10.dp)
             .clickable { onGoToItem(product.id) }
-    ){
+    ) {
         Image(
             painter = rememberAsyncImagePainter(
                 model = ImageRequest.Builder(LocalContext.current)
@@ -113,9 +123,12 @@ private fun ProductListItem(
                 .padding(Dp(10F))
         )
 
-        Text(text = product.title,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-                .padding(5.dp))
+        Text(
+            text = product.title,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(5.dp)
+        )
     }
 }
 

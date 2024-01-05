@@ -1,3 +1,6 @@
+package productdetails.viewmodel
+
+import CoroutinesTestRule
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.vinmahob.domain.architecture.usecase.UseCaseExecutor
@@ -6,15 +9,25 @@ import com.vinmahob.domain.productdetails.usecase.GetProductDetailsUseCase
 import com.vinmahob.presentation.architecture.viewmodel.usecase.UseCaseExecutorProvider
 import com.vinmahob.presentation.productdetails.mapper.ProductDetailsDomainToPresentationMapper
 import com.vinmahob.presentation.productdetails.model.ProductDetailsPresentationModel
+import com.vinmahob.presentation.productdetails.model.ProductDetailsViewIntent
 import com.vinmahob.presentation.productdetails.model.ProductDetailsViewState
+import com.vinmahob.presentation.productdetails.viewmodel.KEY_ID
 import com.vinmahob.presentation.productdetails.viewmodel.ProductDetailsViewModel
 import io.mockk.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class ProductDetailsViewModelTest {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @get:Rule
+    var coroutinesTestRule = CoroutinesTestRule()
+
     private lateinit var getProductDetailsUseCase: GetProductDetailsUseCase
     private lateinit var productDetailsDomainToPresentationMapper: ProductDetailsDomainToPresentationMapper
     private lateinit var useCaseExecutorProvider: UseCaseExecutorProvider
@@ -47,15 +60,18 @@ class ProductDetailsViewModelTest {
     }
 
     @Test
-    fun `fetchProductDetails should execute use case with given productId`() {
+    fun `fetchProductDetails should execute use case with given productId`() = runTest{
         //init
         val productId = 1
         val useCaseExecutor = mockk<UseCaseExecutor>()
+        coEvery { savedStateHandle.get<Int>(KEY_ID) } returns productId
         coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
         every { useCaseExecutor.execute(getProductDetailsUseCase, productId, viewModel::currentProductDetails) } just Runs
 
         //act
-        viewModel.fetchProductDetails(productId)
+        launch {
+            viewModel.viewIntent.send(ProductDetailsViewIntent.LoadSelectedProductDetails)
+        }.join()
 
         //assert
         verify {

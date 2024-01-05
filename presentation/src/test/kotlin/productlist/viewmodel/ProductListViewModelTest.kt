@@ -1,3 +1,6 @@
+package productlist.viewmodel
+
+import CoroutinesTestRule
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.vinmahob.domain.architecture.usecase.UseCaseExecutor
@@ -7,17 +10,25 @@ import com.vinmahob.presentation.architecture.viewmodel.usecase.UseCaseExecutorP
 import com.vinmahob.presentation.productdetails.model.ProductDetailsViewState
 import com.vinmahob.presentation.productlist.mapper.ProductListDomainToPresentationMapper
 import com.vinmahob.presentation.productlist.mapper.ProductListItemDomainToPresentationMapper
-import com.vinmahob.presentation.productlist.model.ProductListItemPresentationModel
 import com.vinmahob.presentation.productlist.model.ProductListPresentationModel
+import com.vinmahob.presentation.productlist.model.ProductListViewIntent
 import com.vinmahob.presentation.productlist.model.ProductListViewState
 import com.vinmahob.presentation.productlist.viewmodel.ProductListViewModel
 import io.mockk.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class ProductListViewModelTest {
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @get:Rule
+    var coroutinesTestRule = CoroutinesTestRule()
+
     private lateinit var getProductListUseCase: GetProductListUseCase
     private lateinit var productListDomainToPresentationMapper: ProductListDomainToPresentationMapper
     private lateinit var productListItemDomainToPresentationMapper: ProductListItemDomainToPresentationMapper
@@ -51,15 +62,22 @@ class ProductListViewModelTest {
     }
 
     @Test
-    fun `fetchProductList should execute use case`() {
+    fun `fetchProductList should execute use case`() = runTest {
         //init
-        val productId = 1
         val useCaseExecutor = mockk<UseCaseExecutor>()
         coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
-        every { useCaseExecutor.execute(getProductListUseCase, null, viewModel::currentProductList) } just Runs
+        coEvery {
+            useCaseExecutor.execute(
+                getProductListUseCase,
+                null,
+                viewModel::currentProductList
+            )
+        } just Runs
 
         //act
-        viewModel.fetchProductList()
+        launch {
+            viewModel.viewIntent.send(ProductListViewIntent.LoadProductList)
+        }.join()
 
         //assert
         verify {
@@ -76,7 +94,6 @@ class ProductListViewModelTest {
         //init
         val productListDomainModel = mockk<ProductListDomainModel>()
         val productListPresentationModel = mockk<ProductListPresentationModel>()
-        val productListItemPresentationModel = mockk<ProductListItemPresentationModel>()
         every { productListDomainToPresentationMapper.toPresentation(productListDomainModel) } returns productListPresentationModel
 
         //act
@@ -86,6 +103,6 @@ class ProductListViewModelTest {
         verify {
             productListDomainToPresentationMapper.toPresentation(productListDomainModel)
         }
-        assertTrue(viewModel.viewState.value  is ProductListViewState.ProductListLoaded)
+        assertTrue(viewModel.viewState.value is ProductListViewState.ProductListLoaded)
     }
 }

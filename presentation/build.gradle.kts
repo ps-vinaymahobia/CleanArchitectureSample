@@ -29,7 +29,6 @@ dependencies {
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.core.ktx)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
 
     //hilt
     implementation (libs.hilt.android)
@@ -39,6 +38,4 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation (libs.mockk)
-
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
 }

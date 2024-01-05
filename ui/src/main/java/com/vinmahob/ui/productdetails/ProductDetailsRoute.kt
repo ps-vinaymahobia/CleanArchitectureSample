@@ -12,6 +12,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -22,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.vinmahob.presentation.productdetails.model.ProductDetailsPresentationModel
+import com.vinmahob.presentation.productdetails.model.ProductDetailsViewIntent
 import com.vinmahob.presentation.productdetails.model.ProductDetailsViewState
 import com.vinmahob.presentation.productdetails.viewmodel.ProductDetailsViewModel
 
@@ -32,6 +34,9 @@ fun ProductDetailsRoute(
     viewModel: ProductDetailsViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
+    LaunchedEffect(UInt) {
+        viewModel.viewIntent.send(ProductDetailsViewIntent.LoadSelectedProductDetails)
+    }
     ProductListScreen(uiState = state, modifier = modifier)
 }
 

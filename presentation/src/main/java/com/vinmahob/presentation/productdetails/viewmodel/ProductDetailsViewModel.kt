@@ -1,38 +1,57 @@
 package com.vinmahob.presentation.productdetails.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import com.vinmahob.domain.productdetails.model.ProductDetailsDomainModel
 import com.vinmahob.domain.productdetails.usecase.GetProductDetailsUseCase
 import com.vinmahob.presentation.architecture.viewmodel.base.BaseViewModel
 import com.vinmahob.presentation.architecture.viewmodel.usecase.UseCaseExecutorProvider
 import com.vinmahob.presentation.productdetails.mapper.ProductDetailsDomainToPresentationMapper
+import com.vinmahob.presentation.productdetails.model.ProductDetailsViewIntent
 import com.vinmahob.presentation.productdetails.model.ProductDetailsViewState
+import com.vinmahob.presentation.productlist.model.ProductListViewIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
 import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
+
+const val KEY_ID = "id"
 
 @HiltViewModel
 class ProductDetailsViewModel @Inject constructor(
     private val getProductDetailsUseCase: GetProductDetailsUseCase,
     private val productDetailsDomainToPresentationMapper: ProductDetailsDomainToPresentationMapper,
     useCaseExecutorProvider: UseCaseExecutorProvider,
-    savedStateHandle: SavedStateHandle
-) : BaseViewModel<ProductDetailsViewState>(useCaseExecutorProvider = useCaseExecutorProvider) {
-    override fun initialState() = ProductDetailsViewState.Idle
-
+    private val savedStateHandle: SavedStateHandle
+) : BaseViewModel<ProductDetailsViewState, ProductDetailsViewIntent>(useCaseExecutorProvider = useCaseExecutorProvider) {
     init {
-//        fetchProductDetails(savedStateHandle.get<Int>("id") ?: 1)
+        handleViewIntent()
     }
 
-    fun fetchProductDetails(productId: Int) {
+    override fun initialState() = ProductDetailsViewState.Idle
+
+    private fun fetchProductDetails(productId: Int) {
         useCaseExecutor.execute(
             getProductDetailsUseCase, productId, ::currentProductDetails
         )
     }
 
     @VisibleForTesting
-    fun currentProductDetails(product : ProductDetailsDomainModel){
+    fun currentProductDetails(product: ProductDetailsDomainModel) {
         val productDetails = productDetailsDomainToPresentationMapper.toPresentation(product)
-        updateViewState{ProductDetailsViewState.ProductDetailsLoaded(productDetails)}
+        updateViewState { ProductDetailsViewState.ProductDetailsLoaded(productDetails) }
+    }
+
+    override fun handleViewIntent() {
+        viewModelScope.launch {
+            viewIntent.consumeAsFlow().collect {
+                when (it) {
+                    ProductDetailsViewIntent.LoadSelectedProductDetails -> {
+                        fetchProductDetails(savedStateHandle.get<Int>(KEY_ID) ?: 1)
+                    }
+                }
+            }
+        }
     }
 }
