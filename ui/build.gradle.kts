@@ -2,8 +2,8 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.dagger.hilt.android)
     id("org.jetbrains.kotlin.kapt")
-    id("com.google.dagger.hilt.android") //required for hilt processing
 }
 
 android {
