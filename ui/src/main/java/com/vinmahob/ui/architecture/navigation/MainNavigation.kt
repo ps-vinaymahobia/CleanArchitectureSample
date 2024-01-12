@@ -15,17 +15,17 @@ import com.vinmahob.ui.productlist.ProductListRoute
 fun MainNavigation(
     navHostController: NavHostController = rememberNavController()
 ) {
-    NavHost(navController = navHostController, startDestination = "home") {
-        composable(route = "home") {
+    NavHost(navController = navHostController, startDestination = HOME_SCREEN.screenName) {
+        composable(route = HOME_SCREEN.screenName) {
             ProductListRoute(
                 onGoToItem = { id ->
-                    navHostController.navigate("details/$id")
+                    navHostController.navigate("${DETAILS_SCREEN.screenName}/$id")
                 }
             )
         }
 
         composable(
-            route = "details/{id}",
+            route = "${DETAILS_SCREEN.screenName}/{id}",
             arguments = listOf(element = navArgument(KEY_ID) { type = NavType.IntType })
         ) {
             ProductDetailsRoute(
