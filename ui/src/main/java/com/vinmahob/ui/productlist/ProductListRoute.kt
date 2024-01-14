@@ -41,6 +41,8 @@ import com.vinmahob.ui.architecture.ui.widget.DefaultErrorState
 import com.vinmahob.ui.architecture.ui.widget.DefaultIdleState
 import com.vinmahob.ui.architecture.ui.widget.TopAppToolbar
 
+const val LAUNCHED_EFFECT_KEY = "ProductList"
+
 @Composable
 fun ProductListRoute(
     onGoToItem: (Int) -> Unit,
@@ -48,7 +50,7 @@ fun ProductListRoute(
     viewModel: ProductListViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
-    LaunchedEffect(UInt) {
+    LaunchedEffect(LAUNCHED_EFFECT_KEY) {
         viewModel.viewIntent.send(ProductListViewIntent.LoadProductList)
     }
     TopAppToolbar(

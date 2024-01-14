@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
 
 @Module
@@ -20,6 +21,7 @@ object AppModule {
     private const val BASE_URL = "https://dummyjson.com"
 
     @Provides
+    @Singleton
     fun provideCoroutineContextProvider() = object : CoroutineContextProvider {
         override val main: CoroutineContext
             get() = Dispatchers.Main.immediate
@@ -29,6 +31,7 @@ object AppModule {
     }
 
     @Provides
+    @Singleton
     fun provideUseCaseExecutorProvider() =
         object : UseCaseExecutorProvider {
             override fun invoke(coroutineScope: CoroutineScope): UseCaseExecutor {
@@ -38,12 +41,14 @@ object AppModule {
         }
 
     @Provides
+    @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .build()
     }
 
     @Provides
+    @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
