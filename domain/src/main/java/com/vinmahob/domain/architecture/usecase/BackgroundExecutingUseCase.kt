@@ -6,7 +6,7 @@ import kotlinx.coroutines.withContext
 abstract class BackgroundExecutingUseCase<REQUEST, RESULT>(
     private val coroutineContextProvider: CoroutineContextProvider
 ) : UseCase<REQUEST, RESULT> {
-    final override suspend fun execute(     //function is final to prevent child useCase from overriding it
+    final override suspend fun invoke(     //function is final to prevent child useCase from overriding it
         input: REQUEST,
         onResult: (RESULT) -> Unit
     ) {

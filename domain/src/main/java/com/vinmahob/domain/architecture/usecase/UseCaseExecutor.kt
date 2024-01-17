@@ -17,7 +17,7 @@ class UseCaseExecutor(
     ) {
         coroutineScope.launch {
             try {
-                useCase.execute(input, onResult)
+                useCase(input, onResult)
             } catch (ignore: CancellationException) {
                 //ignore or print log - assuming these exceptions are intentional
             } catch (throwable: Throwable) {

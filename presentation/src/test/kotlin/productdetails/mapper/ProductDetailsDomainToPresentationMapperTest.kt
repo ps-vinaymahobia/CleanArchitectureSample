@@ -15,15 +15,16 @@ class ProductDetailsDomainToPresentationMapperTest {
     }
 
     @Test
-    fun `should map productDetailsDataModel to DomainModel`() {
+    fun `Given productDetailsDataModel when toPresentation function is called Then it return PresentationProductDetails`() {
         //init
         val productDetailsDataModel = FakeDataProvider.fakeProductDetails1
         val expectedResult = FakeDataProvider.fakePresentationProductDetails1
 
         //act
-        val actualResult = productDetailsDomainToPresentationMapper.toPresentation(productDetailsDataModel)
+        val actualResult =
+            productDetailsDomainToPresentationMapper.toPresentation(productDetailsDataModel)
 
         //assert
-        Assert.assertEquals(expectedResult,actualResult)
+        Assert.assertEquals(expectedResult, actualResult)
     }
 }
