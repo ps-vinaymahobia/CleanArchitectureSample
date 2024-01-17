@@ -2,6 +2,7 @@ package com.vinmahob.presentation.productdetails.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.vinmahob.domain.architecture.exception.DomainException
 import com.vinmahob.domain.productdetails.model.ProductDetailsDomainModel
 import com.vinmahob.domain.productdetails.usecase.GetProductDetailsUseCase
 import com.vinmahob.presentation.architecture.viewmodel.base.BaseViewModel
@@ -33,7 +34,7 @@ class ProductDetailsViewModel @Inject constructor(
     private fun fetchProductDetails(productId: Int) {
         updateViewState { ProductDetailsViewState.Loading }
         useCaseExecutor.execute(
-            getProductDetailsUseCase, productId, ::currentProductDetails
+            getProductDetailsUseCase, productId, ::currentProductDetails, ::onError
         )
     }
 
@@ -41,6 +42,11 @@ class ProductDetailsViewModel @Inject constructor(
     fun currentProductDetails(product: ProductDetailsDomainModel) {
         val productDetails = productDetailsDomainToPresentationMapper.toPresentation(product)
         updateViewState { ProductDetailsViewState.ProductDetailsLoaded(productDetails) }
+    }
+
+    @VisibleForTesting
+    fun onError(domainException: DomainException) { //ToDo - write UT
+        updateViewState { ProductDetailsViewState.Error(error = domainException.message) }
     }
 
     override fun handleViewIntent() {

@@ -1,14 +1,15 @@
 package com.vinmahob.presentation.productlist.model
 
-import com.vinmahob.presentation.architecture.model.ErrorPresentationModel
+//ToDo - remove
+import com.vinmahob.presentation.architecture.viewmodel.base.ViewState
 
-sealed interface ProductListViewState {
+sealed interface ProductListViewState : ViewState {
     data object Loading : ProductListViewState
     data object Idle : ProductListViewState
 
     data class ProductListLoaded(
-        val productList : ProductListPresentationModel
+        val productList: ProductListPresentationModel
     ) : ProductListViewState
 
-    data class Error(val error : ErrorPresentationModel) : ProductListViewState
+    data class Error(val error: String?) : ProductListViewState
 }

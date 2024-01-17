@@ -79,7 +79,10 @@ internal fun ProductListScreen(
             .padding(innerPadding)
     ) {
         when (uiState) {
-            is ProductListViewState.Error -> DefaultErrorState(modifier)
+            is ProductListViewState.Error -> {
+                DefaultErrorState(modifier, uiState.error)
+            }
+
             ProductListViewState.Idle -> DefaultIdleState(modifier)
             ProductListViewState.Loading -> CircularProgressIndicator(
                 modifier = modifier.align(

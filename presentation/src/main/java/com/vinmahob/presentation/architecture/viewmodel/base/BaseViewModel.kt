@@ -7,7 +7,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-abstract class BaseViewModel<VIEW_STATE : Any, VIEW_INTENT : Any>(
+abstract class BaseViewModel<VIEW_STATE : ViewState, VIEW_INTENT : ViewIntent>(
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(value = this.initialState())
@@ -20,7 +20,7 @@ abstract class BaseViewModel<VIEW_STATE : Any, VIEW_INTENT : Any>(
 
     internal abstract fun initialState(): VIEW_STATE
 
-    internal abstract fun handleViewIntent()
+    internal abstract fun handleViewIntent() //protected?
 
     internal val useCaseExecutor by lazy {
         useCaseExecutorProvider(viewModelScope)
@@ -28,6 +28,18 @@ abstract class BaseViewModel<VIEW_STATE : Any, VIEW_INTENT : Any>(
 
     internal fun updateViewState(newViewState: VIEW_STATE) {
         _viewState.value = newViewState
+    }
+
+    var name : String? = null
+
+    fun test(){
+        if(name != null){
+            name += "1"
+        }
+
+        name?.let {
+            name += "1"
+        }
     }
 
     internal fun updateViewState(updatedState: VIEW_STATE.() -> VIEW_STATE) =

@@ -1,5 +1,7 @@
 package com.vinmahob.presentation.productlist.model
 
-sealed interface ProductListViewIntent {
+import com.vinmahob.presentation.architecture.viewmodel.base.ViewIntent
+
+sealed interface ProductListViewIntent : ViewIntent {
     data object LoadProductList : ProductListViewIntent
 }

@@ -13,8 +13,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             CleanArchitectureSampleTheme {
                 // A surface container using the 'background' color from the theme
@@ -27,4 +29,15 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
+
+fun main(){
+    val l1 = listOf<Int>(1,2,3)
+    val l2 = listOf<Int>(3,4,5)
+
+    println(l1)
+    val result1 = l1.map { it+1 }
+    println(l1)
+    val list = listOf("123", "45")
+    println(list.flatMap { it.toList() }) // [1, 2, 3, 4, 5]
 }

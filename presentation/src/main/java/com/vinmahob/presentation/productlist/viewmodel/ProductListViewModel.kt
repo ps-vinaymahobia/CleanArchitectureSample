@@ -1,6 +1,7 @@
 package com.vinmahob.presentation.productlist.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.vinmahob.domain.architecture.exception.DomainException
 import com.vinmahob.domain.productlist.model.ProductListDomainModel
 import com.vinmahob.domain.productlist.usecase.GetProductListUseCase
 import com.vinmahob.presentation.architecture.viewmodel.base.BaseViewModel
@@ -9,8 +10,6 @@ import com.vinmahob.presentation.productlist.mapper.ProductListDomainToPresentat
 import com.vinmahob.presentation.productlist.model.ProductListViewIntent
 import com.vinmahob.presentation.productlist.model.ProductListViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.VisibleForTesting
@@ -31,7 +30,7 @@ class ProductListViewModel @Inject constructor(
     private fun fetchProductList() {
         updateViewState { ProductListViewState.Loading }
         useCaseExecutor.execute(
-            getProductListUseCase, null, ::currentProductList
+            getProductListUseCase, null, ::currentProductList, ::onError
         )
     }
 
@@ -39,6 +38,11 @@ class ProductListViewModel @Inject constructor(
     fun currentProductList(productList: ProductListDomainModel) {
         val productDetails = productListDomainToPresentationMapper.toPresentation(productList)
         updateViewState { ProductListViewState.ProductListLoaded(productList = productDetails) }
+    }
+
+    @VisibleForTesting
+    fun onError(domainException: DomainException) { //ToDo - write UT
+        updateViewState { ProductListViewState.Error(error = domainException.message) }
     }
 
     override fun handleViewIntent() {

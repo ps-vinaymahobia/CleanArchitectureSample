@@ -12,13 +12,16 @@ import androidx.compose.ui.text.style.TextAlign
 import com.vinmahob.ui.R
 
 @Composable
-fun DefaultErrorState(modifier: Modifier) {
-    Row (
+fun DefaultErrorState(
+    modifier: Modifier,
+    errorMsg: String?
+) {
+    Row(
         modifier = modifier
             .fillMaxSize()
-    ){
+    ) {
         Text(
-            text = stringResource(R.string.error_in_loading_the_content),
+            text = errorMsg ?: stringResource(R.string.error_in_loading_the_content),
             textAlign = TextAlign.Center,
             modifier = modifier
                 .fillMaxWidth()
