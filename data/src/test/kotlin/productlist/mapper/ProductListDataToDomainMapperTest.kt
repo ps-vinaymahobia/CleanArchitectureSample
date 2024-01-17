@@ -14,17 +14,18 @@ class ProductListDataToDomainMapperTest {
     @Before
     fun setup() {
         productListItemDataToDomainMapper = ProductListItemDataToDomainMapper()
-        productListDataToDomainMapper = ProductListDataToDomainMapper(productListItemDataToDomainMapper)
+        productListDataToDomainMapper =
+            ProductListDataToDomainMapper(productListItemDataToDomainMapper)
     }
 
     @Test
     fun `should map productListDataModel to DomainModel`() {
         //init
-        val productList= FakeDataProvider.fakeProductList
+        val productList = FakeDataProvider.fakeProductList
         val expectedResult = FakeDataProvider.fakeDomainProductList
 
         //act
-        val actualResult = productListDataToDomainMapper.toDomain(productList)
+        val actualResult = productListDataToDomainMapper(productList)
 
         //assert
         Assert.assertEquals(expectedResult, actualResult)

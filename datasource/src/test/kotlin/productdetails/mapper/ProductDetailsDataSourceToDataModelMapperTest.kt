@@ -22,7 +22,7 @@ class ProductDetailsDataSourceToDataModelMapperTest {
         val expectedResult = FakeDataProvider.fakeDataProductDetails1
 
         //act
-        val actualResult = productDetailsDataSourceToDataMapper.toData(productDetailsDataModel)
+        val actualResult = productDetailsDataSourceToDataMapper.invoke(productDetailsDataModel)
 
         //assert
         Assert.assertEquals(expectedResult,actualResult)

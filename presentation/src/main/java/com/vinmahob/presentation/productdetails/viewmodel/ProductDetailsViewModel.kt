@@ -40,7 +40,7 @@ class ProductDetailsViewModel @Inject constructor(
 
     @VisibleForTesting
     fun currentProductDetails(product: ProductDetailsDomainModel) {
-        val productDetails = productDetailsDomainToPresentationMapper.toPresentation(product)
+        val productDetails = productDetailsDomainToPresentationMapper(product)
         updateViewState { ProductDetailsViewState.ProductDetailsLoaded(productDetails) }
     }
 

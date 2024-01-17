@@ -6,12 +6,10 @@ import com.vinmahob.datasource.productlist.model.ProductListDataSourceModel
 class ProductListDataSourceToDataMapper(
     private val productListItemDataSourceToDataMapper: ProductListItemDataSourceToDataMapper
 ) {
-    fun toData(input: ProductListDataSourceModel): ProductListDataModel {
+    operator fun invoke(input: ProductListDataSourceModel): ProductListDataModel {
         return ProductListDataModel(
             productList = input.products.map { item ->
-                productListItemDataSourceToDataMapper.toData(
-                    item
-                )
+                productListItemDataSourceToDataMapper(item)
             }
         )
     }

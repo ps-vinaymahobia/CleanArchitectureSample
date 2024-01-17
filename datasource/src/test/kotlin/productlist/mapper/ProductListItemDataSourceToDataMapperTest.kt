@@ -1,6 +1,5 @@
 package productlist.mapper
 
-import com.vinmahob.data.productlist.mapper.ProductListItemDataToDomainMapper
 import com.vinmahob.datasource.productlist.mapper.ProductListItemDataSourceToDataMapper
 import org.junit.Assert
 import org.junit.Before
@@ -22,7 +21,7 @@ class ProductListItemDataSourceToDataMapperTest {
         val expectedResult = FakeDataProvider.fakeDataProductListItem1
 
         //act
-        val actualResult = productListItemDataSourceToDataMapper.toData(productList)
+        val actualResult = productListItemDataSourceToDataMapper(productList)
 
         //assert
         Assert.assertEquals(expectedResult, actualResult)

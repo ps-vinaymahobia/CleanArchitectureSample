@@ -88,14 +88,14 @@ class ProductDetailsViewModelTest {
         //init
         val productDetailsDomainModel = mockk<ProductDetailsDomainModel>()
         val productDetailsPresentationModel = mockk<ProductDetailsPresentationModel>()
-        every { productDetailsDomainToPresentationMapper.toPresentation(productDetailsDomainModel) } returns productDetailsPresentationModel
+        every { productDetailsDomainToPresentationMapper.invoke(productDetailsDomainModel) } returns productDetailsPresentationModel
 
         //act
         viewModel.currentProductDetails(productDetailsDomainModel)
 
         //assert
         verify {
-            productDetailsDomainToPresentationMapper.toPresentation(productDetailsDomainModel)
+            productDetailsDomainToPresentationMapper.invoke(productDetailsDomainModel)
         }
         assertTrue(viewModel.viewState.value  is ProductDetailsViewState.ProductDetailsLoaded)
     }

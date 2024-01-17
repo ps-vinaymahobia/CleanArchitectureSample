@@ -10,6 +10,6 @@ class ProductListLiveRepository(
     private val productListDataToDomainMapper: ProductListDataToDomainMapper
 ) : ProductListRepository {
     override suspend fun getProductList(): ProductListDomainModel {
-        return productListDataToDomainMapper.toDomain(productListDataSource.getProductList())
+        return productListDataToDomainMapper(productListDataSource.getProductList())
     }
 }

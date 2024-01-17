@@ -4,7 +4,7 @@ import com.vinmahob.domain.productlist.model.ProductListItemDomainModel
 import com.vinmahob.presentation.productlist.model.ProductListItemPresentationModel
 
 class ProductListItemDomainToPresentationMapper {
-    fun toPresentation(input: ProductListItemDomainModel) = ProductListItemPresentationModel(
+    operator fun invoke(input: ProductListItemDomainModel) = ProductListItemPresentationModel(
         id = input.id,
         title = input.title,
         price = input.price,
