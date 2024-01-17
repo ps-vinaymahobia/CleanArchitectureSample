@@ -4,10 +4,8 @@ import com.vinmahob.data.productlist.datasource.ProductListDataSource
 import com.vinmahob.data.productlist.mapper.ProductListDataToDomainMapper
 import com.vinmahob.data.productlist.mapper.ProductListItemDataToDomainMapper
 import com.vinmahob.data.productlist.repository.ProductListLiveRepository
-import com.vinmahob.datasource.productlist.datasource.ProductListLiveDataSource
-import com.vinmahob.datasource.productlist.mapper.ProductListDataSourceToDataMapper
-import com.vinmahob.datasource.productlist.mapper.ProductListItemDataSourceToDataMapper
-import com.vinmahob.datasource.productlist.network.ProductListApiService
+import com.vinmahob.data.productlist.datasource.ProductListLiveDataSource
+import com.vinmahob.data.productlist.network.ProductListApiService
 import com.vinmahob.domain.architecture.coroutine.CoroutineContextProvider
 import com.vinmahob.domain.productlist.repository.ProductListRepository
 import com.vinmahob.domain.productlist.usecase.GetProductListUseCase
@@ -38,19 +36,8 @@ object ProductListModule {
     @Provides
     fun provideProductDataSource(
         apiService: ProductListApiService,
-        productListDataSourceToDataMapper: ProductListDataSourceToDataMapper
     ): ProductListDataSource =
-        ProductListLiveDataSource(apiService, productListDataSourceToDataMapper)
-
-    @Provides
-    fun provideProductListResponseToDataMapper(
-        productListItemDataSourceToDataMapper: ProductListItemDataSourceToDataMapper
-    ): ProductListDataSourceToDataMapper =
-        ProductListDataSourceToDataMapper(productListItemDataSourceToDataMapper)
-
-    @Provides
-    fun provideProductListItemDataSourceToDataMapper(): ProductListItemDataSourceToDataMapper =
-        ProductListItemDataSourceToDataMapper()
+        ProductListLiveDataSource(apiService)
 
     @Provides
     fun provideProductDataToDomainMapper(
@@ -62,11 +49,12 @@ object ProductListModule {
 
     @Provides
     fun provideProductListDomainToPresentationMapper(
-        productListItemDomainToPresentationMapper : ProductListItemDomainToPresentationMapper
+        productListItemDomainToPresentationMapper: ProductListItemDomainToPresentationMapper
     ) = ProductListDomainToPresentationMapper(productListItemDomainToPresentationMapper)
 
     @Provides
-    fun provideProductListItemDomainToPresentationMapper() = ProductListItemDomainToPresentationMapper()
+    fun provideProductListItemDomainToPresentationMapper() =
+        ProductListItemDomainToPresentationMapper()
 
     @Provides
     fun provideProductDetailsApiService(retrofit: Retrofit): ProductListApiService {

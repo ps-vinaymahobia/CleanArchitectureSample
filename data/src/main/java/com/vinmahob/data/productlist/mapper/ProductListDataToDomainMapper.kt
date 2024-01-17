@@ -8,7 +8,7 @@ class ProductListDataToDomainMapper(
 ) {
     fun toDomain(input: ProductListDataModel): ProductListDomainModel {
         return ProductListDomainModel(
-            productList = input.productList.map { item ->
+            productList = input.products.map { item ->
                 productListItemDataToDomainMapper.toDomain(
                     item
                 )
