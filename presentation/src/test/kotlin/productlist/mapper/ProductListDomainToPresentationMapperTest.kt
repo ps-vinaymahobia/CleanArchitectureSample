@@ -20,7 +20,7 @@ class ProductListDomainToPresentationMapperTest {
     @Test
     fun `should map productListDataModel to DomainModel`() {
         //init
-        val productList= FakeDataProvider.fakeProductList
+        val productList= FakeDataProvider.fakeDomainProductList
         val expectedResult = FakeDataProvider.fakePresentationProductList
 
         //act

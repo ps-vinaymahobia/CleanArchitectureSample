@@ -1,6 +1,5 @@
 package com.vinmahob.presentation.productdetails.model
 
-//ToDo - remove import
 import com.vinmahob.presentation.architecture.viewmodel.base.ViewState
 
 sealed interface ProductDetailsViewState : ViewState {

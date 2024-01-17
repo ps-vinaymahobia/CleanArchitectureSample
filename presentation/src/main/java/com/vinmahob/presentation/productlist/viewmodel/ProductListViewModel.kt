@@ -34,14 +34,12 @@ class ProductListViewModel @Inject constructor(
         )
     }
 
-    @VisibleForTesting
     fun currentProductList(productList: ProductListDomainModel) {
         val productDetails = productListDomainToPresentationMapper.toPresentation(productList)
         updateViewState { ProductListViewState.ProductListLoaded(productList = productDetails) }
     }
 
-    @VisibleForTesting
-    fun onError(domainException: DomainException) { //ToDo - write UT
+    fun onError(domainException: DomainException) {
         updateViewState { ProductListViewState.Error(error = domainException.message) }
     }
 

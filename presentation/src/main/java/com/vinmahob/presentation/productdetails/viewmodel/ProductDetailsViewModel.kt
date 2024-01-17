@@ -45,7 +45,7 @@ class ProductDetailsViewModel @Inject constructor(
     }
 
     @VisibleForTesting
-    fun onError(domainException: DomainException) { //ToDo - write UT
+    fun onError(domainException: DomainException) {
         updateViewState { ProductDetailsViewState.Error(error = domainException.message) }
     }
 
