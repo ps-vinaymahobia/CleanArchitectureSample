@@ -14,6 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,8 +44,14 @@ fun ProductDetailsRoute(
     viewModel: ProductDetailsViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
-    LaunchedEffect(LAUNCHED_EFFECT_KEY) {
-        viewModel.viewIntent.send(ProductDetailsViewIntent.LoadSelectedProductDetails)
+    var shouldCallLandingApi by rememberSaveable {
+        mutableStateOf(true)
+    }
+    if (shouldCallLandingApi) {
+        LaunchedEffect(LAUNCHED_EFFECT_KEY) {
+            viewModel.viewIntent.send(ProductDetailsViewIntent.LoadSelectedProductDetails)
+        }
+        shouldCallLandingApi = false
     }
     TopAppToolbar(
         title = stringResource(id = R.string.product_details_screen_title),

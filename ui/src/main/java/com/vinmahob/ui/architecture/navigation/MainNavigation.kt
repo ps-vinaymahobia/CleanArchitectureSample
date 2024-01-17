@@ -1,6 +1,8 @@
 package com.vinmahob.ui.architecture.navigation
 
+import android.app.Activity
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,12 +17,14 @@ import com.vinmahob.ui.productlist.ProductListRoute
 fun MainNavigation(
     navHostController: NavHostController = rememberNavController()
 ) {
+    val activity = LocalContext.current as Activity
     NavHost(navController = navHostController, startDestination = HOME_SCREEN.screenName) {
         composable(route = HOME_SCREEN.screenName) {
             ProductListRoute(
                 onGoToItem = { id ->
                     navHostController.navigate("${DETAILS_SCREEN.screenName}/$id")
-                }
+                },
+                onCloseIconPressed = { activity.finish() }
             )
         }
 

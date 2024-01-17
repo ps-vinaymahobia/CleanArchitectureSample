@@ -18,6 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,12 +49,19 @@ const val LAUNCHED_EFFECT_KEY = "ProductList"
 @Composable
 fun ProductListRoute(
     onGoToItem: (Int) -> Unit,
+    onCloseIconPressed: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: ProductListViewModel = hiltViewModel()
 ) {
     val state by viewModel.viewState.collectAsState()
-    LaunchedEffect(LAUNCHED_EFFECT_KEY) {
-        viewModel.viewIntent.send(ProductListViewIntent.LoadProductList)
+    var shouldCallLandingApi by rememberSaveable {
+        mutableStateOf(true)
+    }
+    if (shouldCallLandingApi) {
+        LaunchedEffect(LAUNCHED_EFFECT_KEY) {
+            viewModel.viewIntent.send(ProductListViewIntent.LoadProductList)
+        }
+        shouldCallLandingApi = false
     }
     TopAppToolbar(
         title = stringResource(id = R.string.product_list_screen_title),
@@ -62,7 +72,9 @@ fun ProductListRoute(
                 innerPadding = innerPadding,
                 onGoToItem = onGoToItem
             )
-        })
+        },
+        onCloseIconPressed = onCloseIconPressed
+    )
 }
 
 @Composable

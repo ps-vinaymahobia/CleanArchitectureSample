@@ -2,6 +2,7 @@
     <string name="product_list_screen_title">Home</string>
     <string name="product_details_screen_title">Product Details</string>
     <string name="back_btn_content_description">Back</string>
+    <string name="back_close_content_description">Close</string>
     <string name="nothing_to_show">Nothing to show</string>
     <string name="error_in_loading_the_content">Error in Loading the content</string>
 </resources>
