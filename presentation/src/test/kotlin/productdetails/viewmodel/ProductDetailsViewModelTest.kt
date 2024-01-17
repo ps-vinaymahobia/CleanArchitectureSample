@@ -54,7 +54,7 @@ class ProductDetailsViewModelTest {
     }
 
     @Test
-    fun `initial state should be idle`() {
+    fun `Given viewModel is instantiated Then initial state should be idle`() {
         //act
         val initialState = viewModel.initialState()
 
@@ -63,36 +63,37 @@ class ProductDetailsViewModelTest {
     }
 
     @Test
-    fun `fetchProductDetails should execute use case with given productId`() = runTest {
-        //init
-        val productId = 1
-        val useCaseExecutor = mockk<UseCaseExecutor>()
-        coEvery { savedStateHandle.get<Int>(KEY_ID) } returns productId
-        coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
-        every {
-            useCaseExecutor.execute(
-                getProductDetailsUseCase,
-                productId,
-                viewModel::currentProductDetails,
-                viewModel::onError
-            )
-        } just Runs
+    fun `Given fetchProductDetails View intent received Then useCaseExecutor should execute use case with given productId`() =
+        runTest {
+            //init
+            val productId = 1
+            val useCaseExecutor = mockk<UseCaseExecutor>()
+            coEvery { savedStateHandle.get<Int>(KEY_ID) } returns productId
+            coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
+            every {
+                useCaseExecutor.execute(
+                    getProductDetailsUseCase,
+                    productId,
+                    viewModel::currentProductDetails,
+                    viewModel::onError
+                )
+            } just Runs
 
-        //act
-        launch {
-            viewModel.viewIntent.send(ProductDetailsViewIntent.LoadSelectedProductDetails)
-        }.join()
+            //act
+            launch {
+                viewModel.viewIntent.send(ProductDetailsViewIntent.LoadSelectedProductDetails)
+            }.join()
 
-        //assert
-        verify {
-            useCaseExecutor.execute(
-                getProductDetailsUseCase,
-                productId,
-                viewModel::currentProductDetails,
-                viewModel::onError
-            )
+            //assert
+            verify {
+                useCaseExecutor.execute(
+                    getProductDetailsUseCase,
+                    productId,
+                    viewModel::currentProductDetails,
+                    viewModel::onError
+                )
+            }
         }
-    }
 
     @Test
     fun `Given currentProductDetails Then view state should be updated with loaded product details`() {
