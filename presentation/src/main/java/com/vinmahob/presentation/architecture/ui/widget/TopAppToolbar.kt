@@ -1,4 +1,4 @@
-package com.vinmahob.ui.architecture.ui.widget
+package com.vinmahob.presentation.architecture.ui.widget
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.vinmahob.ui.R
+import com.vinmahob.presentation.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

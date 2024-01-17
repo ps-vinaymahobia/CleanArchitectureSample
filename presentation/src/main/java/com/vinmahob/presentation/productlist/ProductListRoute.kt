@@ -1,4 +1,4 @@
-package com.vinmahob.ui.productlist
+package com.vinmahob.presentation.productlist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -26,23 +26,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.vinmahob.presentation.R
 import com.vinmahob.presentation.productlist.model.ProductListItemPresentationModel
 import com.vinmahob.presentation.productlist.model.ProductListPresentationModel
 import com.vinmahob.presentation.productlist.model.ProductListViewIntent
 import com.vinmahob.presentation.productlist.model.ProductListViewState
 import com.vinmahob.presentation.productlist.viewmodel.ProductListViewModel
-import com.vinmahob.ui.R
-import com.vinmahob.ui.architecture.theme.DEFAULT_PADDING_SIZE
-import com.vinmahob.ui.architecture.theme.DEFAULT_TEXT_PADDING_SIZE
-import com.vinmahob.ui.architecture.theme.SIZE_150DP
-import com.vinmahob.ui.architecture.theme.SIZE_200DP
-import com.vinmahob.ui.architecture.theme.SIZE_340DP
-import com.vinmahob.ui.architecture.ui.state.DefaultErrorState
-import com.vinmahob.ui.architecture.ui.state.DefaultIdleState
-import com.vinmahob.ui.architecture.ui.state.DefaultLoadingState
-import com.vinmahob.ui.architecture.ui.widget.ImageWidget
-import com.vinmahob.ui.architecture.ui.widget.TextWidget
-import com.vinmahob.ui.architecture.ui.widget.TopAppToolbar
+import com.vinmahob.presentation.architecture.theme.DEFAULT_PADDING_SIZE
+import com.vinmahob.presentation.architecture.theme.DEFAULT_TEXT_PADDING_SIZE
+import com.vinmahob.presentation.architecture.theme.SIZE_150DP
+import com.vinmahob.presentation.architecture.theme.SIZE_200DP
+import com.vinmahob.presentation.architecture.theme.SIZE_340DP
+import com.vinmahob.presentation.architecture.ui.state.DefaultErrorState
+import com.vinmahob.presentation.architecture.ui.state.DefaultIdleState
+import com.vinmahob.presentation.architecture.ui.state.DefaultLoadingState
+import com.vinmahob.presentation.architecture.ui.widget.ImageWidget
+import com.vinmahob.presentation.architecture.ui.widget.TextWidget
+import com.vinmahob.presentation.architecture.ui.widget.TopAppToolbar
 
 const val LAUNCHED_EFFECT_KEY = "ProductList"
 

@@ -1,4 +1,4 @@
-package com.vinmahob.ui.architecture.theme
+package com.vinmahob.presentation.architecture.theme
 
 import androidx.compose.ui.graphics.Color
 

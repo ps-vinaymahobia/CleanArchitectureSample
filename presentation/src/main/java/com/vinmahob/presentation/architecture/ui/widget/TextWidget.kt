@@ -1,4 +1,4 @@
-package com.vinmahob.ui.architecture.ui.widget
+package com.vinmahob.presentation.architecture.ui.widget
 
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text

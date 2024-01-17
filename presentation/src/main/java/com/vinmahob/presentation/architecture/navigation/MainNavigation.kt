@@ -1,4 +1,4 @@
-package com.vinmahob.ui.architecture.navigation
+package com.vinmahob.presentation.architecture.navigation
 
 import android.app.Activity
 import androidx.compose.runtime.Composable
@@ -9,9 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.vinmahob.presentation.productdetails.ProductDetailsRoute
 import com.vinmahob.presentation.productdetails.viewmodel.KEY_ID
-import com.vinmahob.ui.productdetails.ProductDetailsRoute
-import com.vinmahob.ui.productlist.ProductListRoute
+import com.vinmahob.presentation.productlist.ProductListRoute
 
 @Composable
 fun MainNavigation(

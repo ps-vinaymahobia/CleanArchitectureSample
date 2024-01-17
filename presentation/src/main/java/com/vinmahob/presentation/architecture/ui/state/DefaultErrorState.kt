@@ -1,4 +1,4 @@
-package com.vinmahob.ui.architecture.ui.state
+package com.vinmahob.presentation.architecture.ui.state
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import com.vinmahob.ui.R
+import com.vinmahob.presentation.R
 
 @Composable
 fun DefaultErrorState(

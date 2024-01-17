@@ -10,6 +10,7 @@ androidxHilt = "1.1.0"
 androidxNavigation = "2.7.5"
 kotlinxCoroutinesAndroid = "1.7.3"
 kotlinxCoroutinesTest = "1.7.3"
+lifecycleRuntimeKtx = "2.7.0"
 mockk = "1.13.8"
 org-jetbrains-kotlin-jvm = "1.9.0"
 hilt = "2.48"
@@ -24,6 +25,7 @@ coilCompose = "2.2.2"
 
 [libraries]
 android-tools-build-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+androidx-lifecycle-runtime-ktx-v270 = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCore" }

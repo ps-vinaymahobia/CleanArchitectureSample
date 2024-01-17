@@ -1,4 +1,4 @@
-package com.vinmahob.ui.architecture.ui.widget
+package com.vinmahob.presentation.architecture.ui.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth

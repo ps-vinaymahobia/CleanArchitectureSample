@@ -1,4 +1,4 @@
-package com.vinmahob.ui.architecture.navigation
+package com.vinmahob.presentation.architecture.navigation
 
 @JvmInline
 value class NavigationScreen(val screenName: String)

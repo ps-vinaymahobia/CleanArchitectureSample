@@ -1,4 +1,4 @@
-package com.vinmahob.ui.architecture.ui.state
+package com.vinmahob.presentation.architecture.ui.state
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
