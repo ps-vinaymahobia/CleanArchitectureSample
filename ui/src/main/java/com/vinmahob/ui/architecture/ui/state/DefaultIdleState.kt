@@ -1,4 +1,4 @@
-package com.vinmahob.ui.architecture.ui.widget
+package com.vinmahob.ui.architecture.ui.state
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,16 +12,13 @@ import androidx.compose.ui.text.style.TextAlign
 import com.vinmahob.ui.R
 
 @Composable
-fun DefaultErrorState(
-    modifier: Modifier,
-    errorMsg: String?
-) {
-    Row(
+fun DefaultIdleState(modifier: Modifier) {
+    Row (
         modifier = modifier
             .fillMaxSize()
-    ) {
+    ){
         Text(
-            text = errorMsg ?: stringResource(R.string.error_in_loading_the_content),
+            text = stringResource(R.string.nothing_to_show),
             textAlign = TextAlign.Center,
             modifier = modifier
                 .fillMaxWidth()
