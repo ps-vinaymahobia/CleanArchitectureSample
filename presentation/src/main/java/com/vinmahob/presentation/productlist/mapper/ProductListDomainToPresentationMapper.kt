@@ -6,10 +6,12 @@ import com.vinmahob.presentation.productlist.model.ProductListPresentationModel
 class ProductListDomainToPresentationMapper(
     private val productListItemDomainToPresentationMapper: ProductListItemDomainToPresentationMapper
 ) {
-    operator fun invoke(input: ProductListDomainModel): ProductListPresentationModel {
+    fun toPresentation(input: ProductListDomainModel): ProductListPresentationModel {
         return ProductListPresentationModel(
             productList = input.productList.map { item ->
-                productListItemDomainToPresentationMapper(item)
+                productListItemDomainToPresentationMapper.toPresentation(
+                    item
+                )
             }
         )
     }

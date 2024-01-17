@@ -94,14 +94,14 @@ class ProductListViewModelTest {
         //init
         val productListDomainModel = mockk<ProductListDomainModel>()
         val productListPresentationModel = mockk<ProductListPresentationModel>()
-        every { productListDomainToPresentationMapper(productListDomainModel) } returns productListPresentationModel
+        every { productListDomainToPresentationMapper.toPresentation(productListDomainModel) } returns productListPresentationModel
 
         //act
         viewModel.currentProductList(productListDomainModel)
 
         //assert
         verify {
-            productListDomainToPresentationMapper(productListDomainModel)
+            productListDomainToPresentationMapper.toPresentation(productListDomainModel)
         }
         assertTrue(viewModel.viewState.value is ProductListViewState.ProductListLoaded)
     }

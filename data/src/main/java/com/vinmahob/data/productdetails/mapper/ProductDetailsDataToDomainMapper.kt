@@ -4,7 +4,7 @@ import com.vinmahob.data.productdetails.model.ProductDetailsDataModel
 import com.vinmahob.domain.productdetails.model.ProductDetailsDomainModel
 
 class ProductDetailsDataToDomainMapper {
-    operator fun invoke(input: ProductDetailsDataModel) = ProductDetailsDomainModel(
+    fun toDomain(input: ProductDetailsDataModel) = ProductDetailsDomainModel(
         id = input.id,
         title = input.title,
         description = input.description,

@@ -1,5 +1,6 @@
 package productlist.mapper
 
+import com.vinmahob.data.productlist.mapper.ProductListItemDataToDomainMapper
 import com.vinmahob.datasource.productlist.mapper.ProductListDataSourceToDataMapper
 import com.vinmahob.datasource.productlist.mapper.ProductListItemDataSourceToDataMapper
 import org.junit.Assert
@@ -14,18 +15,17 @@ class ProductListDataSourceToDataMapperTest {
     @Before
     fun setup() {
         productListItemDataSourceToDataMapper = ProductListItemDataSourceToDataMapper()
-        productListDataSourceToDataMapper =
-            ProductListDataSourceToDataMapper(productListItemDataSourceToDataMapper)
+        productListDataSourceToDataMapper = ProductListDataSourceToDataMapper(productListItemDataSourceToDataMapper)
     }
 
     @Test
     fun `should map productListDataModel to DomainModel`() {
         //init
-        val productList = FakeDataProvider.fakeProductList
+        val productList= FakeDataProvider.fakeProductList
         val expectedResult = FakeDataProvider.fakeDataProductList
 
         //act
-        val actualResult = productListDataSourceToDataMapper(productList)
+        val actualResult = productListDataSourceToDataMapper.toData(productList)
 
         //assert
         Assert.assertEquals(expectedResult, actualResult)

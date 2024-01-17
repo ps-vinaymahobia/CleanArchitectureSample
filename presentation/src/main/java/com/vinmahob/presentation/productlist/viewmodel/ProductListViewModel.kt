@@ -36,7 +36,7 @@ class ProductListViewModel @Inject constructor(
 
     @VisibleForTesting
     fun currentProductList(productList: ProductListDomainModel) {
-        val productDetails = productListDomainToPresentationMapper(productList)
+        val productDetails = productListDomainToPresentationMapper.toPresentation(productList)
         updateViewState { ProductListViewState.ProductListLoaded(productList = productDetails) }
     }
 

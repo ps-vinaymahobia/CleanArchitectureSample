@@ -21,7 +21,7 @@ class ProductDetailsDataToDomainMapperTest {
         val expectedResult = FakeDataProvider.fakeDomainProductDetails1
 
         //act
-        val actualResult = productDetailsDataToDomainMapper(productDetailsDataModel)
+        val actualResult = productDetailsDataToDomainMapper.toDomain(productDetailsDataModel)
 
         //assert
         Assert.assertEquals(expectedResult,actualResult)

@@ -4,7 +4,7 @@ import com.vinmahob.data.productlist.model.ProductListItemDataModel
 import com.vinmahob.domain.productlist.model.ProductListItemDomainModel
 
 class ProductListItemDataToDomainMapper {
-    operator fun invoke(input: ProductListItemDataModel) = ProductListItemDomainModel(
+    fun toDomain(input: ProductListItemDataModel) = ProductListItemDomainModel(
         id = input.id,
         title = input.title,
         price = input.price,

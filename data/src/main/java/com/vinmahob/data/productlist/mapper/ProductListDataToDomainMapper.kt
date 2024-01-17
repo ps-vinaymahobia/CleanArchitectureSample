@@ -6,10 +6,12 @@ import com.vinmahob.domain.productlist.model.ProductListDomainModel
 class ProductListDataToDomainMapper(
     private val productListItemDataToDomainMapper: ProductListItemDataToDomainMapper
 ) {
-    operator fun invoke(input: ProductListDataModel): ProductListDomainModel {
+    fun toDomain(input: ProductListDataModel): ProductListDomainModel {
         return ProductListDomainModel(
             productList = input.productList.map { item ->
-                productListItemDataToDomainMapper(item)
+                productListItemDataToDomainMapper.toDomain(
+                    item
+                )
             }
         )
     }

@@ -11,6 +11,6 @@ class ProductListLiveDataSource(
     private val productListDataSourceToDataMapper: ProductListDataSourceToDataMapper
 ) : ProductListDataSource {
     override suspend fun getProductList(): ProductListDataModel {
-        return productListDataSourceToDataMapper(productListApiService.getProductList())
+        return productListDataSourceToDataMapper.toData(productListApiService.getProductList())
     }
 }

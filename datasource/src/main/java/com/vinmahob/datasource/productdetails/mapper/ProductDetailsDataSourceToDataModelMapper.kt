@@ -4,7 +4,7 @@ import com.vinmahob.data.productdetails.model.ProductDetailsDataModel
 import com.vinmahob.datasource.productdetails.model.ProductDetailsDataSourceModel
 
 class ProductDetailsDataSourceToDataModelMapper {
-    operator fun invoke(input: ProductDetailsDataSourceModel) = ProductDetailsDataModel(
+    fun toData(input: ProductDetailsDataSourceModel) = ProductDetailsDataModel(
         id = input.id,
         title = input.title,
         description = input.description,
