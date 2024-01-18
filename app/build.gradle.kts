@@ -58,8 +58,8 @@ dependencies {
     implementation(project(":presentation"))
 
     //hilt
-    implementation (libs.hilt.android)
-    kapt (libs.hilt.android.compiler)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
     //retrofit

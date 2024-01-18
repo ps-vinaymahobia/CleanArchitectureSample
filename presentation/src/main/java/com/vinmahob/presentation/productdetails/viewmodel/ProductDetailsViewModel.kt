@@ -14,7 +14,6 @@ import com.vinmahob.presentation.productdetails.model.ProductDetailsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
-import org.jetbrains.annotations.VisibleForTesting
 import javax.inject.Inject
 
 const val KEY_ID = "id"

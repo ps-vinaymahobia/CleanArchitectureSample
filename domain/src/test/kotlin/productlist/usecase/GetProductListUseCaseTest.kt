@@ -1,9 +1,6 @@
 package productlist.usecase
 
 import com.vinmahob.domain.architecture.coroutine.CoroutineContextProvider
-import com.vinmahob.domain.productdetails.model.ProductDetailsDomainModel
-import com.vinmahob.domain.productdetails.repository.ProductDetailsRepository
-import com.vinmahob.domain.productdetails.usecase.GetProductDetailsUseCase
 import com.vinmahob.domain.productlist.repository.ProductListRepository
 import com.vinmahob.domain.productlist.usecase.GetProductListUseCase
 import io.mockk.coEvery
