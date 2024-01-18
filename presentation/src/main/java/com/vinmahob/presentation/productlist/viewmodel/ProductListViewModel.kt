@@ -7,6 +7,7 @@ import com.vinmahob.domain.productlist.usecase.GetProductListUseCase
 import com.vinmahob.presentation.architecture.viewmodel.base.BaseViewModel
 import com.vinmahob.presentation.architecture.viewmodel.usecase.UseCaseExecutorProvider
 import com.vinmahob.presentation.productlist.mapper.ProductListDomainToPresentationMapper
+import com.vinmahob.presentation.productlist.model.ProductListSideEffect
 import com.vinmahob.presentation.productlist.model.ProductListViewIntent
 import com.vinmahob.presentation.productlist.model.ProductListViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,9 @@ class ProductListViewModel @Inject constructor(
     private val getProductListUseCase: GetProductListUseCase,
     private val productListDomainToPresentationMapper: ProductListDomainToPresentationMapper,
     useCaseExecutorProvider: UseCaseExecutorProvider
-) : BaseViewModel<ProductListViewState, ProductListViewIntent>(useCaseExecutorProvider = useCaseExecutorProvider) {
+) : BaseViewModel<ProductListViewState, ProductListViewIntent, ProductListSideEffect>(
+    useCaseExecutorProvider = useCaseExecutorProvider
+) {
     init {
         handleViewIntent()
     }
@@ -43,11 +46,16 @@ class ProductListViewModel @Inject constructor(
         updateViewState { ProductListViewState.Error(error = domainException.message) }
     }
 
+    private fun onProductItemClick(productId: Int) {
+        emitSideEffect(ProductListSideEffect.NavigateToProductDetails(productId))
+    }
+
     override fun handleViewIntent() {
         viewModelScope.launch {
             viewIntent.consumeAsFlow().collect {
                 when (it) {
                     ProductListViewIntent.LoadProductList -> fetchProductList()
+                    is ProductListViewIntent.OnProductItemClicked -> onProductItemClick(it.productId)
                 }
             }
         }

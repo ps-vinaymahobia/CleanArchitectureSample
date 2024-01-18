@@ -4,14 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vinmahob.presentation.architecture.viewmodel.usecase.UseCaseExecutorProvider
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<VIEW_STATE : ViewState, VIEW_INTENT : ViewIntent>(
+abstract class BaseViewModel<VIEW_STATE : ViewState, VIEW_INTENT : ViewIntent, SIDE_EFFECT : SideEffect>(
     useCaseExecutorProvider: UseCaseExecutorProvider
 ) : ViewModel() {
     private val _viewState = MutableStateFlow(value = this.initialState())
     val viewState = _viewState.asStateFlow()
+
+    private val _sideEffect = MutableSharedFlow<SIDE_EFFECT>()
+    val sideEffect = _sideEffect.asSharedFlow()
 
     val viewIntent = Channel<VIEW_INTENT>(Channel.UNLIMITED)
 
@@ -20,7 +26,7 @@ abstract class BaseViewModel<VIEW_STATE : ViewState, VIEW_INTENT : ViewIntent>(
 
     internal abstract fun initialState(): VIEW_STATE
 
-    internal abstract fun handleViewIntent() //protected?
+    internal abstract fun handleViewIntent()
 
     internal val useCaseExecutor by lazy {
         useCaseExecutorProvider(viewModelScope)
@@ -30,15 +36,9 @@ abstract class BaseViewModel<VIEW_STATE : ViewState, VIEW_INTENT : ViewIntent>(
         _viewState.value = newViewState
     }
 
-    var name : String? = null
-
-    fun test(){
-        if(name != null){
-            name += "1"
-        }
-
-        name?.let {
-            name += "1"
+    internal fun emitSideEffect(sideEffect: SIDE_EFFECT) {
+        viewModelScope.launch {
+            _sideEffect.emit(sideEffect)
         }
     }
 

@@ -19,6 +19,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -43,6 +44,8 @@ import com.vinmahob.presentation.architecture.ui.state.DefaultLoadingState
 import com.vinmahob.presentation.architecture.ui.widget.ImageWidget
 import com.vinmahob.presentation.architecture.ui.widget.TextWidget
 import com.vinmahob.presentation.architecture.ui.widget.TopAppToolbar
+import com.vinmahob.presentation.productlist.model.ProductListSideEffect
+import kotlinx.coroutines.launch
 
 const val LAUNCHED_EFFECT_KEY = "ProductList"
 
@@ -60,29 +63,36 @@ fun ProductListRoute(
     if (shouldCallLandingApi) {
         LaunchedEffect(LAUNCHED_EFFECT_KEY) {
             viewModel.viewIntent.send(ProductListViewIntent.LoadProductList)
+            shouldCallLandingApi = false
         }
-        shouldCallLandingApi = false
+    }
+    LaunchedEffect(LAUNCHED_EFFECT_KEY) {
+        viewModel.sideEffect.collect { sideEffect ->
+            when (sideEffect) {
+                is ProductListSideEffect.NavigateToProductDetails -> {
+                    onGoToItem(sideEffect.id)
+                }
+            }
+        }
     }
     TopAppToolbar(
-        title = stringResource(id = R.string.product_list_screen_title),
-        content = { innerPadding ->
+        title = stringResource(id = R.string.product_list_screen_title), content = { innerPadding ->
             ProductListScreen(
                 uiState = state,
                 modifier = modifier,
                 innerPadding = innerPadding,
-                onGoToItem = onGoToItem
+                viewModel = viewModel
             )
-        },
-        onCloseIconPressed = onCloseIconPressed
+        }, onCloseIconPressed = onCloseIconPressed
     )
 }
 
 @Composable
 internal fun ProductListScreen(
-    onGoToItem: (Int) -> Unit,
     modifier: Modifier,
     innerPadding: PaddingValues,
-    uiState: ProductListViewState
+    uiState: ProductListViewState,
+    viewModel: ProductListViewModel
 ) {
     Box(
         modifier
@@ -98,7 +108,7 @@ internal fun ProductListScreen(
             ProductListViewState.Loading -> DefaultLoadingState(modifier)
 
             is ProductListViewState.ProductListLoaded -> {
-                ProductList(productList = uiState.productList, onGoToItem = onGoToItem)
+                ProductList(productList = uiState.productList, viewModel = viewModel)
             }
         }
     }
@@ -106,8 +116,7 @@ internal fun ProductListScreen(
 
 @Composable
 private fun ProductList(
-    onGoToItem: (Int) -> Unit,
-    productList: ProductListPresentationModel,
+    productList: ProductListPresentationModel, viewModel: ProductListViewModel
 ) {
     Box(
         modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter
@@ -118,7 +127,7 @@ private fun ProductList(
             Column {
                 LazyVerticalGrid(columns = GridCells.Adaptive(minSize = SIZE_150DP), content = {
                     itemsIndexed(productList.productList) { _, product ->
-                        ProductListItem(product, onGoToItem)
+                        ProductListItem(product, viewModel)
                     }
                 })
             }
@@ -128,12 +137,17 @@ private fun ProductList(
 
 @Composable
 private fun ProductListItem(
-    product: ProductListItemPresentationModel, onGoToItem: (Int) -> Unit
+    product: ProductListItemPresentationModel, viewModel: ProductListViewModel
 ) {
+    val scope = rememberCoroutineScope()
     OutlinedCard(modifier = Modifier
         .size(width = SIZE_340DP, height = SIZE_200DP)
         .padding(DEFAULT_PADDING_SIZE)
-        .clickable { onGoToItem(product.id) }) {
+        .clickable {
+            scope.launch {
+                viewModel.viewIntent.send(ProductListViewIntent.OnProductItemClicked(product.id))
+            }
+        }) {
         ImageWidget(
             imageUrl = product.thumbnail,
             modifier = Modifier

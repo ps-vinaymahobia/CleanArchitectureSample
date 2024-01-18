@@ -8,6 +8,7 @@ import com.vinmahob.domain.productdetails.usecase.GetProductDetailsUseCase
 import com.vinmahob.presentation.architecture.viewmodel.base.BaseViewModel
 import com.vinmahob.presentation.architecture.viewmodel.usecase.UseCaseExecutorProvider
 import com.vinmahob.presentation.productdetails.mapper.ProductDetailsDomainToPresentationMapper
+import com.vinmahob.presentation.productdetails.model.ProductDetailSideEffect
 import com.vinmahob.presentation.productdetails.model.ProductDetailsViewIntent
 import com.vinmahob.presentation.productdetails.model.ProductDetailsViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +25,9 @@ class ProductDetailsViewModel @Inject constructor(
     private val productDetailsDomainToPresentationMapper: ProductDetailsDomainToPresentationMapper,
     useCaseExecutorProvider: UseCaseExecutorProvider,
     private val savedStateHandle: SavedStateHandle
-) : BaseViewModel<ProductDetailsViewState, ProductDetailsViewIntent>(useCaseExecutorProvider = useCaseExecutorProvider) {
+) : BaseViewModel<ProductDetailsViewState, ProductDetailsViewIntent, ProductDetailSideEffect>(
+    useCaseExecutorProvider = useCaseExecutorProvider
+) {
     init {
         handleViewIntent()
     }
