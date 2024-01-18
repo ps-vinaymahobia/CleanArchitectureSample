@@ -13,13 +13,13 @@ import utils.FakeDataProvider
 
 
 class GetProductDetailsUseCaseTest {
-    private var productDetailsRepository =  mockk<ProductDetailsRepository>()
-    private var coroutineContextProvider =  mockk<CoroutineContextProvider>()
+    private var productDetailsRepository = mockk<ProductDetailsRepository>()
+    private var coroutineContextProvider = mockk<CoroutineContextProvider>()
 
-    private lateinit var getProductDetailsUseCase : GetProductDetailsUseCase
+    private lateinit var getProductDetailsUseCase: GetProductDetailsUseCase
 
     @Before
-    fun setup(){
+    fun setup() {
         getProductDetailsUseCase = GetProductDetailsUseCase(
             productDetailsRepository = productDetailsRepository,
             coroutineContextProvider = coroutineContextProvider
@@ -27,7 +27,7 @@ class GetProductDetailsUseCaseTest {
     }
 
     @Test
-    fun `Given productId when executeInBackground then returns productDetails`() = runTest{
+    fun `Given productId when executeInBackground Then it returns productDetails`() = runTest {
         //Given
         val productId = 2
         val expectedProduct = FakeDataProvider.fakeProductDetails2
@@ -37,6 +37,6 @@ class GetProductDetailsUseCaseTest {
         val actualResult = getProductDetailsUseCase.executeInBackground(productId)
 
         //Then
-        Assert.assertEquals(expectedProduct.id,actualResult.id)
+        Assert.assertEquals(expectedProduct.id, actualResult.id)
     }
 }

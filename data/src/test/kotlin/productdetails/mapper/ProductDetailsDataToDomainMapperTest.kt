@@ -15,7 +15,7 @@ class ProductDetailsDataToDomainMapperTest {
     }
 
     @Test
-    fun `should map productDetailsDataModel to DomainModel`() {
+    fun `Given productDetailsDataModel When toDomain fun is called Then it should return productDomainDetailsModel`() {
         //init
         val productDetailsDataModel = FakeDataProvider.fakeProductDetails1
         val expectedResult = FakeDataProvider.fakeDomainProductDetails1
@@ -24,6 +24,6 @@ class ProductDetailsDataToDomainMapperTest {
         val actualResult = productDetailsDataToDomainMapper.toDomain(productDetailsDataModel)
 
         //assert
-        Assert.assertEquals(expectedResult,actualResult)
+        Assert.assertEquals(expectedResult, actualResult)
     }
 }

@@ -93,7 +93,8 @@ object FakeDataProvider {
     )
 
 
-    val fakeDomainProductList = ProductListDomainModel(listOf(fakeDomainProductListItem1, fakeDomainProductListItem2))
+    val fakeDomainProductList =
+        ProductListDomainModel(listOf(fakeDomainProductListItem1, fakeDomainProductListItem2))
 
     val fakeDomainProductDetails1 = ProductDetailsDomainModel(
         brand = "Samsung",

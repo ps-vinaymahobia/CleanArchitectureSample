@@ -28,16 +28,17 @@ class GetProductListUseCaseTest {
     }
 
     @Test
-    fun `When GetProductListUseCase executeInBackground then returns productList`() = runTest {
-        //Given
-        val expectedList = FakeDataProvider.fakeProductList
+    fun `When GetProductListUseCase When executeInBackground is called Then it returns productList`() =
+        runTest {
+            //Given
+            val expectedList = FakeDataProvider.fakeProductList
 
-        coEvery { productListRepository.getProductList() } returns
-                expectedList
-        //when
-        val actualResult = getProductListUseCase.executeInBackground(null)
+            coEvery { productListRepository.getProductList() } returns
+                    expectedList
+            //when
+            val actualResult = getProductListUseCase.executeInBackground(null)
 
-        //Then
-        Assert.assertEquals(expectedList.productList.size, actualResult.productList.size)
-    }
+            //Then
+            Assert.assertEquals(expectedList.productList.size, actualResult.productList.size)
+        }
 }

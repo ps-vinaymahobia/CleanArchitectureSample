@@ -14,13 +14,14 @@ class ProductListDomainToPresentationMapperTest {
     @Before
     fun setup() {
         productListItemDomainToPresentationMapper = ProductListItemDomainToPresentationMapper()
-        productListDomainToPresentationMapper = ProductListDomainToPresentationMapper(productListItemDomainToPresentationMapper)
+        productListDomainToPresentationMapper =
+            ProductListDomainToPresentationMapper(productListItemDomainToPresentationMapper)
     }
 
     @Test
     fun `Given DomainProductListModel When toPresentation fun is called Then return PresentationListModel`() {
         //init
-        val productList= FakeDataProvider.fakeDomainProductList
+        val productList = FakeDataProvider.fakeDomainProductList
         val expectedResult = FakeDataProvider.fakePresentationProductList
 
         //act

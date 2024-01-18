@@ -24,7 +24,7 @@ abstract class BaseViewModel<VIEW_STATE : ViewState, VIEW_INTENT : ViewIntent, S
     private val currentViewState: VIEW_STATE
         get() = viewState.value
 
-    protected abstract fun initialState(): VIEW_STATE
+    internal abstract fun initialState(): VIEW_STATE
 
     protected abstract fun handleViewIntent()
 

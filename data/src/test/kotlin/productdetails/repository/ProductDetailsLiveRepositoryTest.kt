@@ -13,11 +13,11 @@ import utils.FakeDataProvider
 
 class ProductDetailsLiveRepositoryTest {
     private var productDetailsDataSource = mockk<ProductDetailsDataSource>()
-    private lateinit var productDetailsDataToDomainMapper : ProductDetailsDataToDomainMapper
+    private lateinit var productDetailsDataToDomainMapper: ProductDetailsDataToDomainMapper
     private lateinit var productDetailsLiveRepository: ProductDetailsLiveRepository
 
     @Before
-    fun setup(){
+    fun setup() {
         productDetailsDataToDomainMapper = ProductDetailsDataToDomainMapper()
         productDetailsLiveRepository = ProductDetailsLiveRepository(
             productDetailsDataSource = productDetailsDataSource,
@@ -26,18 +26,19 @@ class ProductDetailsLiveRepositoryTest {
     }
 
     @Test
-    fun `Given productId and productDetailsDataSource gives ProductDetailsDataModel When getProductDetails called then returns productDetailsDomainModel`() = runTest {
-        //Given
-        val productId = 1
-        val productDetailsDataModel = FakeDataProvider.fakeProductDetails1
-        val expectedResult = FakeDataProvider.fakeDomainProductDetails1
-        coEvery { productDetailsDataSource.getProductDetails(productId) } returns
-                productDetailsDataModel
+    fun `Given productId and productDetailsDataSource gives ProductDetailsDataModel When getProductDetails called Then returns productDetailsDomainModel`() =
+        runTest {
+            //Given
+            val productId = 1
+            val productDetailsDataModel = FakeDataProvider.fakeProductDetails1
+            val expectedResult = FakeDataProvider.fakeDomainProductDetails1
+            coEvery { productDetailsDataSource.getProductDetails(productId) } returns
+                    productDetailsDataModel
 
-        //when
-        val actualResult = productDetailsLiveRepository.getProductDetails(productId)
+            //when
+            val actualResult = productDetailsLiveRepository.getProductDetails(productId)
 
-        //Then
-        Assert.assertEquals(expectedResult.brand,actualResult.brand)
-    }
+            //Then
+            Assert.assertEquals(expectedResult.brand, actualResult.brand)
+        }
 }

@@ -15,7 +15,7 @@ class ProductListItemDataToDomainMapperTest {
     }
 
     @Test
-    fun `should map productListItemDataModel to DomainModel`() {
+    fun `Given productItemDataModel When toDomain fun is called Then it should return productListItemDomainModel`() {
         //init
         val productItem = FakeDataProvider.fakeProductListItem1
         val expectedResult = FakeDataProvider.fakeDomainProductListItem1

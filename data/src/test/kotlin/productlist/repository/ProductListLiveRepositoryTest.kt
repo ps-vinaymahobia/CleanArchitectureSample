@@ -14,14 +14,15 @@ import utils.FakeDataProvider
 
 class ProductListLiveRepositoryTest {
     private var productListDataSource = mockk<ProductListDataSource>()
-    private lateinit var productListItemDataToDomainMapper : ProductListItemDataToDomainMapper
-    private lateinit var productListDataToDomainMapper : ProductListDataToDomainMapper
+    private lateinit var productListItemDataToDomainMapper: ProductListItemDataToDomainMapper
+    private lateinit var productListDataToDomainMapper: ProductListDataToDomainMapper
     private lateinit var productListLiveRepository: ProductListLiveRepository
 
     @Before
-    fun setup(){
+    fun setup() {
         productListItemDataToDomainMapper = ProductListItemDataToDomainMapper()
-        productListDataToDomainMapper = ProductListDataToDomainMapper(productListItemDataToDomainMapper)
+        productListDataToDomainMapper =
+            ProductListDataToDomainMapper(productListItemDataToDomainMapper)
         productListLiveRepository = ProductListLiveRepository(
             productListDataSource = productListDataSource,
             productListDataToDomainMapper = productListDataToDomainMapper
@@ -29,17 +30,18 @@ class ProductListLiveRepositoryTest {
     }
 
     @Test
-    fun `Given productListDataSource gives ProductListDataModel When getProductList called then returns productListDomainModel`() = runTest {
-        //Given
-        val productListDataModel = FakeDataProvider.fakeProductList
-        val expectedResult = FakeDataProvider.fakeDomainProductList
-        coEvery { productListDataSource.getProductList() } returns
-                productListDataModel
+    fun `Given productListDataSource gives ProductListDataModel When getProductList called then returns productListDomainModel`() =
+        runTest {
+            //Given
+            val productListDataModel = FakeDataProvider.fakeProductList
+            val expectedResult = FakeDataProvider.fakeDomainProductList
+            coEvery { productListDataSource.getProductList() } returns
+                    productListDataModel
 
-        //when
-        val actualResult = productListLiveRepository.getProductList()
+            //when
+            val actualResult = productListLiveRepository.getProductList()
 
-        //Then
-        Assert.assertEquals(expectedResult.productList[0].id,actualResult.productList[0].id)
-    }
+            //Then
+            Assert.assertEquals(expectedResult.productList[0].id, actualResult.productList[0].id)
+        }
 }

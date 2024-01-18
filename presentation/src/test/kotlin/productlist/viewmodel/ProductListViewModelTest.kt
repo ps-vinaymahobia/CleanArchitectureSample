@@ -12,6 +12,7 @@ import com.vinmahob.domain.productlist.usecase.GetProductListUseCase
 import com.vinmahob.presentation.architecture.viewmodel.usecase.UseCaseExecutorProvider
 import com.vinmahob.presentation.productlist.mapper.ProductListDomainToPresentationMapper
 import com.vinmahob.presentation.productlist.mapper.ProductListItemDomainToPresentationMapper
+import com.vinmahob.presentation.productlist.model.ProductListSideEffect
 import com.vinmahob.presentation.productlist.model.ProductListViewIntent
 import com.vinmahob.presentation.productlist.model.ProductListViewState
 import com.vinmahob.presentation.productlist.viewmodel.ProductListViewModel
@@ -19,6 +20,7 @@ import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
@@ -115,4 +117,22 @@ class ProductListViewModelTest {
         //assert
         assertTrue(viewModel.viewState.value is ProductListViewState.Error)
     }
+
+    @Test
+    fun `Given list of products displayed When OnProductItemClick Then emit NavigateToProductDetails side effect`() =
+        runTest {
+            // init
+            val productId = 1
+
+            //collect
+            val job = launch {
+                viewModel.sideEffect.collect {
+                    assertTrue(it is ProductListSideEffect.NavigateToProductDetails)
+                }
+            }
+
+            //emit
+            viewModel.viewIntent.send(ProductListViewIntent.OnProductItemClicked(productId))
+            job.cancel()
+        }
 }
