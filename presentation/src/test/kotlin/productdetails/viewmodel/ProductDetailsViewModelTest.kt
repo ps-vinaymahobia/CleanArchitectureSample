@@ -3,21 +3,21 @@ package productdetails.viewmodel
 import CoroutinesTestRule
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.vinmahob.domain.architecture.coroutine.CoroutineContextProvider
 import com.vinmahob.domain.architecture.exception.UnknownDomainException
 import com.vinmahob.domain.architecture.usecase.UseCaseExecutor
-import com.vinmahob.domain.productdetails.model.ProductDetailsDomainModel
+import com.vinmahob.domain.productdetails.repository.ProductDetailsRepository
 import com.vinmahob.domain.productdetails.usecase.GetProductDetailsUseCase
 import com.vinmahob.presentation.architecture.viewmodel.usecase.UseCaseExecutorProvider
 import com.vinmahob.presentation.productdetails.mapper.ProductDetailsDomainToPresentationMapper
-import com.vinmahob.presentation.productdetails.model.ProductDetailsPresentationModel
 import com.vinmahob.presentation.productdetails.model.ProductDetailsViewIntent
 import com.vinmahob.presentation.productdetails.model.ProductDetailsViewState
 import com.vinmahob.presentation.productdetails.viewmodel.KEY_ID
 import com.vinmahob.presentation.productdetails.viewmodel.ProductDetailsViewModel
-import com.vinmahob.presentation.productlist.model.ProductListViewState
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -31,6 +31,9 @@ class ProductDetailsViewModelTest {
     @get:Rule
     var coroutinesTestRule = CoroutinesTestRule()
 
+    private lateinit var coroutineContextProvider: CoroutineContextProvider
+    private lateinit var useCaseExecutor: UseCaseExecutor
+    private lateinit var productDetailsRepository: ProductDetailsRepository
     private lateinit var getProductDetailsUseCase: GetProductDetailsUseCase
     private lateinit var productDetailsDomainToPresentationMapper: ProductDetailsDomainToPresentationMapper
     private lateinit var useCaseExecutorProvider: UseCaseExecutorProvider
@@ -40,7 +43,10 @@ class ProductDetailsViewModelTest {
 
     @Before
     fun setUp() {
-        getProductDetailsUseCase = mockk()
+        productDetailsRepository = mockk()
+        coroutineContextProvider = mockk()
+        getProductDetailsUseCase =
+            GetProductDetailsUseCase(productDetailsRepository, coroutineContextProvider)
         productDetailsDomainToPresentationMapper = ProductDetailsDomainToPresentationMapper()
         useCaseExecutorProvider = mockk()
         savedStateHandle = mockk()
@@ -51,6 +57,7 @@ class ProductDetailsViewModelTest {
             useCaseExecutorProvider,
             savedStateHandle
         )
+        useCaseExecutor = UseCaseExecutor(viewModel.viewModelScope)
     }
 
     @Test
@@ -63,64 +70,47 @@ class ProductDetailsViewModelTest {
     }
 
     @Test
-    fun `Given fetchProductDetails View intent received Then useCaseExecutor should execute use case with given productId`() =
-        runTest {
-            //init
-            val productId = 1
-            val useCaseExecutor = mockk<UseCaseExecutor>()
-            coEvery { savedStateHandle.get<Int>(KEY_ID) } returns productId
-            coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
-            every {
-                useCaseExecutor.execute(
-                    getProductDetailsUseCase,
-                    productId,
-                    viewModel::currentProductDetails,
-                    viewModel::onError
-                )
-            } just Runs
-
-            //act
-            launch {
-                viewModel.viewIntent.send(ProductDetailsViewIntent.LoadSelectedProductDetails)
-            }.join()
-
-            //assert
-            verify {
-                useCaseExecutor.execute(
-                    getProductDetailsUseCase,
-                    productId,
-                    viewModel::currentProductDetails,
-                    viewModel::onError
-                )
-            }
-        }
-
-    @Test
-    fun `Given currentProductDetails Then view state should be updated with loaded product details`() {
+    fun `Given fetchProductDetails View Intent is received When product details is fetched Then view state is updated to ProductDetailsLoaded`() {
         //init
+        val productId = 1
         val productDetailsDomainModel = FakeDataProvider.fakeProductDetails1
-        val productDetailsPresentationModel = FakeDataProvider.fakePresentationProductDetails1
+        val expectedResult = FakeDataProvider.fakePresentationProductDetails1
+
+        coEvery { savedStateHandle.get<Int>(KEY_ID) } returns productId
+        coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
+        coEvery { coroutineContextProvider.io } returns Dispatchers.Main
+        coEvery { productDetailsRepository.getProductDetails(productId) } returns productDetailsDomainModel
 
         //act
-        viewModel.currentProductDetails(productDetailsDomainModel)
+        runTest {
+            viewModel.viewIntent.send(ProductDetailsViewIntent.LoadSelectedProductDetails)
+        }
 
         //assert
         assertTrue(viewModel.viewState.value is ProductDetailsViewState.ProductDetailsLoaded)
         val viewStateValue =
             viewModel.viewState.value as? ProductDetailsViewState.ProductDetailsLoaded
         viewStateValue?.let {
-            assertEquals(it.productDetails.id, productDetailsPresentationModel.id)
+            assertEquals(it.productDetails.id, expectedResult.id)
         }
     }
 
     @Test
-    fun `Given DomainException Then view state is updated to Error`() {
+    fun `Given LoadSelectedProductDetails View Intent is received When fetching product details fails Then view state is updated to Error`() {
         //init
+        val productId = 1
         val errorMsg = "Api fails to load data"
         val domainException = UnknownDomainException(errorMsg)
 
+        coEvery { savedStateHandle.get<Int>(KEY_ID) } returns productId
+        coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
+        coEvery { coroutineContextProvider.io } returns Dispatchers.Main
+        coEvery { productDetailsRepository.getProductDetails(productId) } throws domainException
+
         //act
-        viewModel.onError(domainException)
+        runTest {
+            viewModel.viewIntent.send(ProductDetailsViewIntent.LoadSelectedProductDetails)
+        }
 
         //assert
         assertTrue(viewModel.viewState.value is ProductDetailsViewState.Error)
