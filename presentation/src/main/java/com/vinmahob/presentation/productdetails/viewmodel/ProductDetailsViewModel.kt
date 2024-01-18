@@ -34,7 +34,7 @@ class ProductDetailsViewModel @Inject constructor(
     override fun initialState() = ProductDetailsViewState.Idle
 
     private fun fetchProductDetails(productId: Int) {
-        updateViewState { ProductDetailsViewState.Loading }
+        updateViewState(ProductDetailsViewState.Loading)
         useCaseExecutor.execute(
             getProductDetailsUseCase, productId, ::currentProductDetails, ::onError
         )
@@ -42,11 +42,11 @@ class ProductDetailsViewModel @Inject constructor(
 
     private fun currentProductDetails(product: ProductDetailsDomainModel) {
         val productDetails = productDetailsDomainToPresentationMapper.toPresentation(product)
-        updateViewState { ProductDetailsViewState.ProductDetailsLoaded(productDetails) }
+        updateViewState(ProductDetailsViewState.ProductDetailsLoaded(productDetails))
     }
 
     private fun onError(domainException: DomainException) {
-        updateViewState { ProductDetailsViewState.Error(error = domainException.message) }
+        updateViewState(ProductDetailsViewState.Error(error = domainException.message))
     }
 
     override fun handleViewIntent() {

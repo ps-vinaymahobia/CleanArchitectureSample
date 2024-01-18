@@ -30,7 +30,7 @@ class ProductListViewModel @Inject constructor(
     override fun initialState() = ProductListViewState.Idle
 
     private fun fetchProductList() {
-        updateViewState { ProductListViewState.Loading }
+        updateViewState(ProductListViewState.Loading)
         useCaseExecutor.execute(
             getProductListUseCase, null, ::currentProductList, ::onError
         )
@@ -38,11 +38,11 @@ class ProductListViewModel @Inject constructor(
 
     private fun currentProductList(productList: ProductListDomainModel) {
         val productDetails = productListDomainToPresentationMapper.toPresentation(productList)
-        updateViewState { ProductListViewState.ProductListLoaded(productList = productDetails) }
+        updateViewState(ProductListViewState.ProductListLoaded(productList = productDetails))
     }
 
     private fun onError(domainException: DomainException) {
-        updateViewState { ProductListViewState.Error(error = domainException.message) }
+        updateViewState(ProductListViewState.Error(error = domainException.message))
     }
 
     private fun onProductItemClick(productId: Int) {

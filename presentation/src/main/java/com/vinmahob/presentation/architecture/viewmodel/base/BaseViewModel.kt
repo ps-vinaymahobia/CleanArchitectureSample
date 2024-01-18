@@ -24,25 +24,21 @@ abstract class BaseViewModel<VIEW_STATE : ViewState, VIEW_INTENT : ViewIntent, S
     private val currentViewState: VIEW_STATE
         get() = viewState.value
 
-    internal abstract fun initialState(): VIEW_STATE
+    protected abstract fun initialState(): VIEW_STATE
 
-    internal abstract fun handleViewIntent()
+    protected abstract fun handleViewIntent()
 
-    internal val useCaseExecutor by lazy {
+    protected val useCaseExecutor by lazy {
         useCaseExecutorProvider(viewModelScope)
     }
 
-    internal fun updateViewState(newViewState: VIEW_STATE) {
+    protected fun updateViewState(newViewState: VIEW_STATE) {
         _viewState.value = newViewState
     }
 
-    internal fun emitSideEffect(sideEffect: SIDE_EFFECT) {
+    protected fun emitSideEffect(sideEffect: SIDE_EFFECT) {
         viewModelScope.launch {
             _sideEffect.emit(sideEffect)
         }
     }
-
-    internal fun updateViewState(updatedState: VIEW_STATE.() -> VIEW_STATE) =
-        updateViewState(currentViewState.updatedState())
-
 }
