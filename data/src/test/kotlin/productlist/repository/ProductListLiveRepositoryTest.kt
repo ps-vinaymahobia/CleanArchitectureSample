@@ -4,6 +4,7 @@ import com.vinmahob.data.productlist.datasource.ProductListDataSource
 import com.vinmahob.data.productlist.mapper.ProductListDataToDomainMapper
 import com.vinmahob.data.productlist.mapper.ProductListItemDataToDomainMapper
 import com.vinmahob.data.productlist.repository.ProductListLiveRepository
+import com.vinmahob.domain.architecture.model.UseCaseResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -42,6 +43,9 @@ class ProductListLiveRepositoryTest {
             val actualResult = productListLiveRepository.getProductList()
 
             //Then
-            Assert.assertEquals(expectedResult.productList[0].id, actualResult.productList[0].id)
+            Assert.assertEquals(
+                expectedResult.productList[0].id,
+                (actualResult as UseCaseResult.OnSuccess).data.productList[0].id
+            )
         }
 }

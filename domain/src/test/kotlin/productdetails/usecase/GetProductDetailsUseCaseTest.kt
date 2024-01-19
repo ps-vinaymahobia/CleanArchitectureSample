@@ -1,6 +1,7 @@
 package productdetails.usecase
 
 import com.vinmahob.domain.architecture.coroutine.CoroutineContextProvider
+import com.vinmahob.domain.architecture.model.UseCaseResult
 import com.vinmahob.domain.productdetails.repository.ProductDetailsRepository
 import com.vinmahob.domain.productdetails.usecase.GetProductDetailsUseCase
 import io.mockk.coEvery
@@ -32,11 +33,11 @@ class GetProductDetailsUseCaseTest {
         val productId = 2
         val expectedProduct = FakeDataProvider.fakeProductDetails2
         coEvery { productDetailsRepository.getProductDetails(productId) } returns
-                expectedProduct
+                UseCaseResult.OnSuccess(expectedProduct)
         //when
         val actualResult = getProductDetailsUseCase.executeInBackground(productId)
 
         //Then
-        Assert.assertEquals(expectedProduct.id, actualResult.id)
+        Assert.assertEquals(expectedProduct.id, (actualResult as UseCaseResult.OnSuccess).data.id)
     }
 }

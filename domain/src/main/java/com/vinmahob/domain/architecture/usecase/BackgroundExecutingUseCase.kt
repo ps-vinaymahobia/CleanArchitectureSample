@@ -1,6 +1,7 @@
 package com.vinmahob.domain.architecture.usecase
 
 import com.vinmahob.domain.architecture.coroutine.CoroutineContextProvider
+import com.vinmahob.domain.architecture.model.UseCaseResult
 import kotlinx.coroutines.withContext
 
 abstract class BackgroundExecutingUseCase<REQUEST, RESULT>(
@@ -8,15 +9,14 @@ abstract class BackgroundExecutingUseCase<REQUEST, RESULT>(
 ) : UseCase<REQUEST, RESULT> {
     final override suspend fun invoke(     //function is final to prevent child useCase from overriding it
         input: REQUEST,
-        onResult: (RESULT) -> Unit
-    ) {
+    ): UseCaseResult<RESULT> {
         val result = withContext(coroutineContextProvider.io) {
             executeInBackground(input)
         }
-        onResult(result)
+        return result
     }
 
     abstract suspend fun executeInBackground(
         request: REQUEST
-    ): RESULT
+    ): UseCaseResult<RESULT>
 }

@@ -4,7 +4,7 @@ import CoroutinesTestRule
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.vinmahob.domain.architecture.coroutine.CoroutineContextProvider
-import com.vinmahob.domain.architecture.exception.UnknownDomainException
+import com.vinmahob.domain.architecture.model.UseCaseResult
 import com.vinmahob.domain.architecture.usecase.UseCaseExecutor
 import com.vinmahob.domain.productdetails.repository.ProductDetailsRepository
 import com.vinmahob.domain.productdetails.usecase.GetProductDetailsUseCase
@@ -79,7 +79,9 @@ class ProductDetailsViewModelTest {
         coEvery { savedStateHandle.get<Int>(KEY_ID) } returns productId
         coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
         coEvery { coroutineContextProvider.io } returns Dispatchers.Main
-        coEvery { productDetailsRepository.getProductDetails(productId) } returns productDetailsDomainModel
+        coEvery { productDetailsRepository.getProductDetails(productId) } returns UseCaseResult.OnSuccess(
+            productDetailsDomainModel
+        )
 
         //act
         runTest {
@@ -100,12 +102,12 @@ class ProductDetailsViewModelTest {
         //init
         val productId = 1
         val errorMsg = "Api fails to load data"
-        val domainException = UnknownDomainException(errorMsg)
+        val throwable = Throwable(errorMsg)
 
         coEvery { savedStateHandle.get<Int>(KEY_ID) } returns productId
         coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
         coEvery { coroutineContextProvider.io } returns Dispatchers.Main
-        coEvery { productDetailsRepository.getProductDetails(productId) } throws domainException
+        coEvery { productDetailsRepository.getProductDetails(productId) } returns UseCaseResult.OnError(throwable)
 
         //act
         runTest {

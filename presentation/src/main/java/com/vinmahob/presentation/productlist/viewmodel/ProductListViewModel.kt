@@ -1,7 +1,6 @@
 package com.vinmahob.presentation.productlist.viewmodel
 
 import androidx.lifecycle.viewModelScope
-import com.vinmahob.domain.architecture.exception.DomainException
 import com.vinmahob.domain.productlist.model.ProductListDomainModel
 import com.vinmahob.domain.productlist.usecase.GetProductListUseCase
 import com.vinmahob.presentation.architecture.viewmodel.base.BaseViewModel
@@ -41,8 +40,8 @@ class ProductListViewModel @Inject constructor(
         updateViewState(ProductListViewState.ProductListLoaded(productList = productDetails))
     }
 
-    private fun onError(domainException: DomainException) {
-        updateViewState(ProductListViewState.Error(error = domainException.message))
+    private fun onError(throwable: Throwable) {
+        updateViewState(ProductListViewState.Error(error = throwable.message))
     }
 
     private fun onProductItemClick(productId: Int) {

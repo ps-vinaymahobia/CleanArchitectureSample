@@ -4,9 +4,8 @@ import CoroutinesTestRule
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.vinmahob.domain.architecture.coroutine.CoroutineContextProvider
-import com.vinmahob.domain.architecture.exception.UnknownDomainException
+import com.vinmahob.domain.architecture.model.UseCaseResult
 import com.vinmahob.domain.architecture.usecase.UseCaseExecutor
-import com.vinmahob.domain.productlist.model.ProductListDomainModel
 import com.vinmahob.domain.productlist.repository.ProductListRepository
 import com.vinmahob.domain.productlist.usecase.GetProductListUseCase
 import com.vinmahob.presentation.architecture.viewmodel.usecase.UseCaseExecutorProvider
@@ -19,11 +18,8 @@ import com.vinmahob.presentation.productlist.viewmodel.ProductListViewModel
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -82,7 +78,9 @@ class ProductListViewModelTest {
 
         coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
         coEvery { coroutineContextProvider.io } returns Dispatchers.Main
-        coEvery { productListRepository.getProductList() } returns productList
+        coEvery { productListRepository.getProductList() } returns UseCaseResult.OnSuccess(
+            productList
+        )
 
         //act
         runTest {
@@ -103,11 +101,11 @@ class ProductListViewModelTest {
     fun `Given LoadProductList View Intent is received When fetching product list fails Then view state is updated to Error`() {
         //init
         val errorMsg = "Api fails to load data"
-        val domainException = UnknownDomainException(errorMsg)
+        val throwable = Throwable(errorMsg)
 
         coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
         coEvery { coroutineContextProvider.io } returns Dispatchers.Main
-        coEvery { productListRepository.getProductList() } throws domainException
+        coEvery { productListRepository.getProductList() } returns UseCaseResult.OnError(throwable)
 
         //act
         runTest {

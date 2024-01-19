@@ -3,6 +3,7 @@ package productdetails.repository
 import com.vinmahob.data.productdetails.datasource.ProductDetailsDataSource
 import com.vinmahob.data.productdetails.mapper.ProductDetailsDataToDomainMapper
 import com.vinmahob.data.productdetails.repository.ProductDetailsLiveRepository
+import com.vinmahob.domain.architecture.model.UseCaseResult
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -39,6 +40,9 @@ class ProductDetailsLiveRepositoryTest {
             val actualResult = productDetailsLiveRepository.getProductDetails(productId)
 
             //Then
-            Assert.assertEquals(expectedResult.brand, actualResult.brand)
+            Assert.assertEquals(
+                expectedResult.brand,
+                (actualResult as UseCaseResult.OnSuccess).data.brand
+            )
         }
 }

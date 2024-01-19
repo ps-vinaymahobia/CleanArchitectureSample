@@ -1,6 +1,7 @@
 package productlist.usecase
 
 import com.vinmahob.domain.architecture.coroutine.CoroutineContextProvider
+import com.vinmahob.domain.architecture.model.UseCaseResult
 import com.vinmahob.domain.productlist.repository.ProductListRepository
 import com.vinmahob.domain.productlist.usecase.GetProductListUseCase
 import io.mockk.coEvery
@@ -34,11 +35,14 @@ class GetProductListUseCaseTest {
             val expectedList = FakeDataProvider.fakeProductList
 
             coEvery { productListRepository.getProductList() } returns
-                    expectedList
+                    UseCaseResult.OnSuccess(expectedList)
             //when
             val actualResult = getProductListUseCase.executeInBackground(null)
 
             //Then
-            Assert.assertEquals(expectedList.productList.size, actualResult.productList.size)
+            Assert.assertEquals(
+                expectedList.productList.size,
+                (actualResult as UseCaseResult.OnSuccess).data.productList.size
+            )
         }
 }

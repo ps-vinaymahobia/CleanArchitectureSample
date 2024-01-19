@@ -2,7 +2,6 @@ package com.vinmahob.presentation.productdetails.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.vinmahob.domain.architecture.exception.DomainException
 import com.vinmahob.domain.productdetails.model.ProductDetailsDomainModel
 import com.vinmahob.domain.productdetails.usecase.GetProductDetailsUseCase
 import com.vinmahob.presentation.architecture.viewmodel.base.BaseViewModel
@@ -45,8 +44,8 @@ class ProductDetailsViewModel @Inject constructor(
         updateViewState(ProductDetailsViewState.ProductDetailsLoaded(productDetails))
     }
 
-    private fun onError(domainException: DomainException) {
-        updateViewState(ProductDetailsViewState.Error(error = domainException.message))
+    private fun onError(throwable: Throwable) {
+        updateViewState(ProductDetailsViewState.Error(error = throwable.message))
     }
 
     override fun handleViewIntent() {
