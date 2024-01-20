@@ -31,7 +31,7 @@ class ProductListLiveRepositoryTest {
     }
 
     @Test
-    fun `Given productListDataSource gives ProductListDataModel When getProductList called then returns productListDomainModel`() =
+    fun `Given productListDataSource gives ProductListDataModel When getProductList called then returns OnSuccess result with data`() =
         runTest {
             //Given
             val productListDataModel = FakeDataProvider.fakeProductList
@@ -46,6 +46,22 @@ class ProductListLiveRepositoryTest {
             Assert.assertEquals(
                 expectedResult.productList[0].id,
                 (actualResult as UseCaseResult.OnSuccess).data.productList[0].id
+            )
+        }
+
+    @Test
+    fun `Given productListDataSource gives throws exception When getProductList called then returns OnError`() =
+        runTest {
+            //Given
+            val errorMsg = "Api fails to load"
+            coEvery { productListDataSource.getProductList() } throws Throwable(errorMsg)
+
+            //when
+            val actualResult = productListLiveRepository.getProductList()
+
+            //Then
+            Assert.assertTrue(
+                actualResult is UseCaseResult.OnError
             )
         }
 }

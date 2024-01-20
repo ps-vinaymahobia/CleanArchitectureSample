@@ -27,7 +27,7 @@ class ProductDetailsLiveRepositoryTest {
     }
 
     @Test
-    fun `Given productId and productDetailsDataSource gives ProductDetailsDataModel When getProductDetails called Then returns productDetailsDomainModel`() =
+    fun `Given productId and productDetailsDataSource gives ProductDetailsDataModel When getProductDetails called Then returns OnSuccess with data`() =
         runTest {
             //Given
             val productId = 1
@@ -40,9 +40,29 @@ class ProductDetailsLiveRepositoryTest {
             val actualResult = productDetailsLiveRepository.getProductDetails(productId)
 
             //Then
+            Assert.assertTrue(actualResult is UseCaseResult.OnSuccess)
             Assert.assertEquals(
                 expectedResult.brand,
                 (actualResult as UseCaseResult.OnSuccess).data.brand
+            )
+        }
+
+    @Test
+    fun `Given productDetailsDataSource gives throws exception When getProductList called then returns OnError`() =
+        runTest {
+            //Given
+            val productId = 1
+            val errorMsg = "Api fails to load"
+            coEvery { productDetailsDataSource.getProductDetails(productId) } throws Throwable(
+                errorMsg
+            )
+
+            //when
+            val actualResult = productDetailsLiveRepository.getProductDetails(productId)
+
+            //Then
+            Assert.assertTrue(
+                actualResult is UseCaseResult.OnError
             )
         }
 }

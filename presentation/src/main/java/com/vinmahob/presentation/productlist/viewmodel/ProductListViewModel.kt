@@ -31,7 +31,7 @@ class ProductListViewModel @Inject constructor(
     private fun fetchProductList() {
         updateViewState(ProductListViewState.Loading)
         useCaseExecutor.execute(
-            getProductListUseCase, null, ::currentProductList, ::onError
+            getProductListUseCase, Unit, ::currentProductList, ::onError
         )
     }
 

@@ -9,8 +9,8 @@ import com.vinmahob.domain.productlist.repository.ProductListRepository
 class GetProductListUseCase(
     private val productListRepository: ProductListRepository,
     coroutineContextProvider: CoroutineContextProvider
-) : BackgroundExecutingUseCase<Nothing?, ProductListDomainModel>(coroutineContextProvider) {
-    override suspend fun executeInBackground(request: Nothing?): UseCaseResult<ProductListDomainModel> {
+) : BackgroundExecutingUseCase<Unit, ProductListDomainModel>(coroutineContextProvider) {
+    override suspend fun executeInBackground(request: Unit): UseCaseResult<ProductListDomainModel> {
         return productListRepository.getProductList()
     }
 }

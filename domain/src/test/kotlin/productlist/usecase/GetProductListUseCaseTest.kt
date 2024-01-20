@@ -29,7 +29,7 @@ class GetProductListUseCaseTest {
     }
 
     @Test
-    fun `When GetProductListUseCase When executeInBackground is called Then it returns productList`() =
+    fun `When GetProductListUseCase When executeInBackground is called Then it returns OnSuccess with data`() =
         runTest {
             //Given
             val expectedList = FakeDataProvider.fakeProductList
@@ -37,7 +37,7 @@ class GetProductListUseCaseTest {
             coEvery { productListRepository.getProductList() } returns
                     UseCaseResult.OnSuccess(expectedList)
             //when
-            val actualResult = getProductListUseCase.executeInBackground(null)
+            val actualResult = getProductListUseCase.executeInBackground(Unit)
 
             //Then
             Assert.assertEquals(
@@ -45,4 +45,18 @@ class GetProductListUseCaseTest {
                 (actualResult as UseCaseResult.OnSuccess).data.productList.size
             )
         }
+
+    @Test
+    fun `Given productId when executeInBackground fails Then it returns OnError`() = runTest {
+        //Given
+        val errorMsg = "Data fails to load"
+        val throwable = Throwable(errorMsg)
+        coEvery { productListRepository.getProductList() } returns
+                UseCaseResult.OnError(throwable)
+        //when
+        val actualResult = getProductListUseCase.executeInBackground(Unit)
+
+        //Then
+        Assert.assertTrue(actualResult is UseCaseResult.OnError)
+    }
 }

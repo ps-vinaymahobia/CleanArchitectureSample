@@ -28,7 +28,7 @@ class GetProductDetailsUseCaseTest {
     }
 
     @Test
-    fun `Given productId when executeInBackground Then it returns productDetails`() = runTest {
+    fun `Given productId when executeInBackground Then it returns OnSuccess with data`() = runTest {
         //Given
         val productId = 2
         val expectedProduct = FakeDataProvider.fakeProductDetails2
@@ -39,5 +39,20 @@ class GetProductDetailsUseCaseTest {
 
         //Then
         Assert.assertEquals(expectedProduct.id, (actualResult as UseCaseResult.OnSuccess).data.id)
+    }
+
+    @Test
+    fun `Given productId when executeInBackground fails Then it returns OnError`() = runTest {
+        //Given
+        val productId = 2
+        val errorMsg = "Data fails to load"
+        val throwable = Throwable(errorMsg)
+        coEvery { productDetailsRepository.getProductDetails(productId) } returns
+                UseCaseResult.OnError(throwable)
+        //when
+        val actualResult = getProductDetailsUseCase.executeInBackground(productId)
+
+        //Then
+        Assert.assertTrue(actualResult is UseCaseResult.OnError)
     }
 }

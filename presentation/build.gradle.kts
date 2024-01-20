@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         minSdk = 24
-        testInstrumentationRunner = "com.google.samples.modularization.testing.HiltTestRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     java {
@@ -43,8 +43,8 @@ dependencies {
     //for loading images
     implementation(libs.coil.compose)
     //hilt
-    implementation (libs.hilt.android)
-    kapt (libs.hilt.android.compiler)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     //compose
     implementation(libs.androidx.activity.compose)
@@ -54,9 +54,11 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.hilt.navigation.compose)
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     //unit testing
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation (libs.mockk)
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 }
