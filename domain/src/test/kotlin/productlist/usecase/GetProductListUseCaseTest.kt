@@ -14,6 +14,10 @@ import utils.FakeDataProvider
 
 
 class GetProductListUseCaseTest {
+    companion object {
+        const val errorMsg = "Data fails to load"
+    }
+
     private var productListRepository = mockk<ProductListRepository>()
 
     private var coroutineContextProvider = mockk<CoroutineContextProvider>()
@@ -49,7 +53,6 @@ class GetProductListUseCaseTest {
     @Test
     fun `Given productId when executeInBackground fails Then it returns OnError`() = runTest {
         //Given
-        val errorMsg = "Data fails to load"
         val throwable = Throwable(errorMsg)
         coEvery { productListRepository.getProductList() } returns
                 UseCaseResult.OnError(throwable)

@@ -14,6 +14,9 @@ import org.junit.Test
 import utils.FakeDataProvider
 
 class ProductListLiveRepositoryTest {
+    companion object{
+        const val errorMsg = "Api fails to load"
+    }
     private var productListDataSource = mockk<ProductListDataSource>()
     private lateinit var productListItemDataToDomainMapper: ProductListItemDataToDomainMapper
     private lateinit var productListDataToDomainMapper: ProductListDataToDomainMapper
@@ -53,7 +56,6 @@ class ProductListLiveRepositoryTest {
     fun `Given productListDataSource gives throws exception When getProductList called then returns OnError`() =
         runTest {
             //Given
-            val errorMsg = "Api fails to load"
             coEvery { productListDataSource.getProductList() } throws Throwable(errorMsg)
 
             //when

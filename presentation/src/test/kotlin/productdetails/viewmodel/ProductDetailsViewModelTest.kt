@@ -27,6 +27,10 @@ import org.junit.Test
 import utils.FakeDataProvider
 
 class ProductDetailsViewModelTest {
+    companion object {
+        const val errorMsg = "Data fails to load"
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
     var coroutinesTestRule = CoroutinesTestRule()
@@ -101,13 +105,14 @@ class ProductDetailsViewModelTest {
     fun `Given LoadSelectedProductDetails View Intent is received When fetching product details fails Then view state is updated to Error`() {
         //init
         val productId = 1
-        val errorMsg = "Api fails to load data"
         val throwable = Throwable(errorMsg)
 
         coEvery { savedStateHandle.get<Int>(KEY_ID) } returns productId
         coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
         coEvery { coroutineContextProvider.io } returns Dispatchers.Main
-        coEvery { productDetailsRepository.getProductDetails(productId) } returns UseCaseResult.OnError(throwable)
+        coEvery { productDetailsRepository.getProductDetails(productId) } returns UseCaseResult.OnError(
+            throwable
+        )
 
         //act
         runTest {

@@ -8,11 +8,6 @@ class ProductListItemDomainToPresentationMapper {
         ProductListItemPresentationModel(
             id = id,
             title = title,
-            price = price,
-            rating = rating,
-            stock = stock,
-            brand = brand,
-            category = category,
             thumbnail = thumbnail,
         )
     }

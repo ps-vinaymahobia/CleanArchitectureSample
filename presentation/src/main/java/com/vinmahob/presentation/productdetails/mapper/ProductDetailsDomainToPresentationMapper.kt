@@ -9,13 +9,6 @@ class ProductDetailsDomainToPresentationMapper {
             id = id,
             title = title,
             description = description,
-            price = price,
-            discountPercentage = discountPercentage,
-            rating = rating,
-            stock = stock,
-            brand = brand,
-            category = category,
-            thumbnail = thumbnail,
             images = images
         )
     }

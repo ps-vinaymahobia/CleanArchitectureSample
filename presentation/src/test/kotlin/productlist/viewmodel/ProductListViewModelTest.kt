@@ -28,6 +28,10 @@ import org.junit.Test
 import utils.FakeDataProvider
 
 class ProductListViewModelTest {
+    companion object {
+        const val errorMsg = "Data fails to load"
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @get:Rule
     var coroutinesTestRule = CoroutinesTestRule()
@@ -100,7 +104,6 @@ class ProductListViewModelTest {
     @Test
     fun `Given LoadProductList View Intent is received When fetching product list fails Then view state is updated to Error`() {
         //init
-        val errorMsg = "Api fails to load data"
         val throwable = Throwable(errorMsg)
 
         coEvery { useCaseExecutorProvider.invoke(viewModel.viewModelScope) } returns useCaseExecutor
