@@ -1,4 +1,4 @@
-package com.vinmahob.presentation.productlist
+package com.vinmahob.presentation.matchlist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -6,12 +6,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -25,12 +23,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.vinmahob.presentation.R
 import com.vinmahob.presentation.architecture.theme.DEFAULT_PADDING_SIZE
 import com.vinmahob.presentation.architecture.theme.DEFAULT_TEXT_PADDING_SIZE
-import com.vinmahob.presentation.architecture.theme.SIZE_150DP
 import com.vinmahob.presentation.architecture.theme.SIZE_200DP
 import com.vinmahob.presentation.architecture.theme.SIZE_340DP
 import com.vinmahob.presentation.architecture.ui.state.DefaultErrorState
@@ -40,10 +38,10 @@ import com.vinmahob.presentation.architecture.ui.widget.TextWidget
 import com.vinmahob.presentation.architecture.ui.widget.TopAppToolbar
 import com.vinmahob.presentation.matchlist.model.MatchListItemPresentationModel
 import com.vinmahob.presentation.matchlist.model.MatchListPresentationModel
-import com.vinmahob.presentation.matchlist.model.MatchListViewIntent
-import com.vinmahob.presentation.matchlist.viewmodel.MatchListViewModel
 import com.vinmahob.presentation.matchlist.model.MatchListSideEffect
+import com.vinmahob.presentation.matchlist.model.MatchListViewIntent
 import com.vinmahob.presentation.matchlist.model.MatchListViewState
+import com.vinmahob.presentation.matchlist.viewmodel.MatchListViewModel
 import kotlinx.coroutines.launch
 
 const val LAUNCHED_EFFECT_MATCH_LIST_KEY = "MatchList"
@@ -107,7 +105,11 @@ internal fun MatchListScreen(
             MatchListViewState.Loading -> DefaultLoadingState(modifier)
 
             is MatchListViewState.MatchListLoaded -> {
-                MatchList(matchList = uiState.matchList, viewModel = viewModel)
+                MatchList(
+                    matchList = uiState.matchList,
+                    viewModel = viewModel,
+                    modifier = modifier
+                )
             }
         }
     }
@@ -115,20 +117,24 @@ internal fun MatchListScreen(
 
 @Composable
 private fun MatchList(
-    matchList: MatchListPresentationModel, viewModel: MatchListViewModel
+    matchList: MatchListPresentationModel,
+    viewModel: MatchListViewModel,
+    modifier: Modifier
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter
+        modifier = modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter
     ) {
         Surface(
-            modifier = Modifier.fillMaxSize(), color = Color.White
+            modifier = modifier.fillMaxSize(), color = Color.White
         ) {
-            Column {
-                LazyVerticalGrid(columns = GridCells.Adaptive(minSize = SIZE_150DP), content = {
+            Column(
+                modifier = modifier
+            ) {
+                LazyColumn {
                     itemsIndexed(matchList.matchList) { _, match ->
-                        MatchListItem(match, viewModel)
+                        MatchListItem(match, viewModel, modifier)
                     }
-                })
+                }
             }
         }
     }
@@ -136,11 +142,13 @@ private fun MatchList(
 
 @Composable
 private fun MatchListItem(
-    match: MatchListItemPresentationModel, viewModel: MatchListViewModel
+    match: MatchListItemPresentationModel,
+    viewModel: MatchListViewModel,
+    modifier: Modifier
 ) {
     val scope = rememberCoroutineScope()
-    OutlinedCard(modifier = Modifier
-        .size(width = SIZE_340DP, height = SIZE_200DP)
+    OutlinedCard(modifier = modifier
+        .fillMaxWidth()
         .padding(DEFAULT_PADDING_SIZE)
         .clickable {
             scope.launch {

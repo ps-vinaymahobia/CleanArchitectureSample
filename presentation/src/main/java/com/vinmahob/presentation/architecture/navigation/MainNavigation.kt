@@ -4,14 +4,10 @@ import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.vinmahob.presentation.productdetails.ProductDetailsRoute
-import com.vinmahob.presentation.productdetails.viewmodel.KEY_ID
-import com.vinmahob.presentation.productlist.MatchListRoute
+import com.vinmahob.presentation.matchlist.MatchListRoute
 
 @Composable
 fun MainNavigation(
@@ -25,17 +21,6 @@ fun MainNavigation(
                     navHostController.navigate("${DETAILS_SCREEN.screenName}/$id")
                 },
                 onCloseIconPressed = { activity.finish() }
-            )
-        }
-
-        composable(
-            route = "${DETAILS_SCREEN.screenName}/{id}",
-            arguments = listOf(element = navArgument(KEY_ID) { type = NavType.IntType })
-        ) {
-            ProductDetailsRoute(
-                onGoBack = {
-                    navHostController.popBackStack()
-                }
             )
         }
     }
