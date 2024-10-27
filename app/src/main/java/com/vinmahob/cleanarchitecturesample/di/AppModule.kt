@@ -18,7 +18,7 @@ import kotlin.coroutines.CoroutineContext
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    private const val BASE_URL = "https://dummyjson.com"
+    private const val BASE_URL = "https://api.cricapi.com"
 
     @Provides
     @Singleton
