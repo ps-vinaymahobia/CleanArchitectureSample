@@ -12,7 +12,6 @@ import androidx.navigation.navArgument
 import com.vinmahob.presentation.productdetails.ProductDetailsRoute
 import com.vinmahob.presentation.productdetails.viewmodel.KEY_ID
 import com.vinmahob.presentation.productlist.MatchListRoute
-import com.vinmahob.presentation.productlist.ProductListRoute
 
 @Composable
 fun MainNavigation(
@@ -22,15 +21,6 @@ fun MainNavigation(
     NavHost(navController = navHostController, startDestination = MATCH_SCREEN.screenName) {
         composable(route = MATCH_SCREEN.screenName) {
             MatchListRoute(
-                onGoToItem = { id ->
-                    navHostController.navigate("${DETAILS_SCREEN.screenName}/$id")
-                },
-                onCloseIconPressed = { activity.finish() }
-            )
-        }
-
-        composable(route = HOME_SCREEN.screenName) {
-            ProductListRoute(
                 onGoToItem = { id ->
                     navHostController.navigate("${DETAILS_SCREEN.screenName}/$id")
                 },
