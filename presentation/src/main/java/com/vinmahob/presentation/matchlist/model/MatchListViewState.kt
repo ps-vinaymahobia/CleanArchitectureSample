@@ -1,8 +1,6 @@
 package com.vinmahob.presentation.matchlist.model
 
-import com.vinmahob.presentation.architecture.viewmodel.base.ViewState
-
-sealed interface MatchListViewState : ViewState {
+sealed interface MatchListViewState {
     data object Loading : MatchListViewState
     data object Idle : MatchListViewState
 
